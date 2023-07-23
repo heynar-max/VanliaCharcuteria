@@ -17,6 +17,9 @@
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
+body {
+  background-color: #F6F4E8;
+}
 
 
 .circular-btn {

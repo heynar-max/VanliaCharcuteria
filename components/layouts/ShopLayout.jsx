@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { Navbar } from '../ui';
 
 
 
@@ -24,6 +25,7 @@ export const ShopLayout = ({ children, title, pageDescription, imageFullUrl }) =
 
             <nav>
                 {/* TODO: Navbar */}
+                <Navbar/>
             </nav>
 
                 {/* TODO: sidebar */}
