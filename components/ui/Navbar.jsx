@@ -1,5 +1,4 @@
 import NextLink from 'next/link';
-import Logo from '../../public/img/vanlia.png'
 import { AppBar, Badge, Box, Button, IconButton, Link, Toolbar, Typography } from '@mui/material';
 import Image from 'next/image';
 import { SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
@@ -10,7 +9,7 @@ export const Navbar = () => {
         <Toolbar >
             <NextLink href='/' passHref legacyBehavior>
                 <Link display='flex' alignItems='center' sx={{ mt: 5}}>
-                    <Image src={Logo} alt='Logo' width='140' height='90' />
+                    <Image src="/img/vanlia.png" alt='Logo' width='140' height='90' priority={true}/>
                 </Link>  
             </NextLink>
 
