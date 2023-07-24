@@ -5,10 +5,10 @@ import { SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 
 export const Navbar = () => {
     return (
-<AppBar >
+<AppBar width='100px'>
         <Toolbar >
             <NextLink href='/' passHref legacyBehavior>
-                <Link display='flex' alignItems='center' sx={{ mt: 5}}>
+                <Link display='flex' alignItems='center' sx={{ mt: .5}}>
                     <Image src="/img/vanlia.png" alt='Logo' width='140' height='90' priority={true}/>
                 </Link>  
             </NextLink>

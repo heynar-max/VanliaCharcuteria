@@ -31,7 +31,7 @@ export const lightTheme = createTheme({
         },
         styleOverrides: {
             root: {
-            height: 60
+            height: 100
             },
         }
         },
