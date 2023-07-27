@@ -1,4 +1,6 @@
 
+export const ValidSize = ['125','250','500','1000'];
+export const ValidType = ['salchichas','chorizos','ahumados','quesos'];
 
 export const IProduct = {
     _id: '',
@@ -6,11 +8,11 @@ export const IProduct = {
     images: '',
     inStock: '',
     price: '',
-    sizes: ['125','250','500','1000'],
+    sizes: [],
     slug: '',
     tags: '',
     title: '',
-    type: ['lacteos','ahumado','embutidos'],
+    type: [],
     gender: ['salchichas','chorizos','ahumados','quesos']
 }
 
