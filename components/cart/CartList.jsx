@@ -39,8 +39,12 @@ export const CartList = ({ editable = false }) => {
                                 <Typography variant='body1'>{ product.title }</Typography>
                                 <Typography variant='body1'>Talla: <strong>M</strong></Typography>
                                     {/* Condicional */}
-                                <ItemCounter />
-                                
+
+                                    {
+                                        editable 
+                                        ? <ItemCounter />
+                                        : <Typography variant='h5'>3 items</Typography>
+                                    }
                                 
                             </Box>
                         </Grid>
@@ -48,9 +52,13 @@ export const CartList = ({ editable = false }) => {
                             <Typography variant='subtitle1'>{ `$${ product.price }` }</Typography>
                             {/* editable */}
                             
+                            {
+                                editable && (
                                     <Button variant='text' color='secondary' >
                                         Remover
                                     </Button>
+                                )
+                            }
                                 
                         </Grid>
                     </Grid>
