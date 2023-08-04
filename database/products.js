@@ -15,8 +15,8 @@ export const initialData= {
             price: 10000,
             sizes: ['125','250','500','1000'],
             slug: "queso_campesino_blanco",
-            type: 'lacteos',
-            tags: ['quesos'],
+            type: 'quesos',
+            tags: ['lacteos', 'quesos'],
             title: "Queso Campesino ",
             gender: 'quesos'
         },
@@ -30,8 +30,8 @@ export const initialData= {
             price: 15000,
             sizes: ['125','250','500','1000'],
             slug: "queso_doble_crem",
-            type: 'lacteos',
-            tags: ['quesos'],
+            type: 'quesos',
+            tags: ['lacteos', 'quesos'],
             title: "Queso Doble Crema ",
             gender: 'quesos'
         },
@@ -45,8 +45,8 @@ export const initialData= {
             price: 17000,
             sizes: ['125','250','500','1000'],
             slug: "queso_parmesano",
-            type: 'lacteos',
-            tags: ['quesos'],
+            type: 'quesos',
+            tags: ['lacteos', 'quesos'],
             title: "Queso Parmesano ",
             gender: 'quesos'
         },
@@ -60,8 +60,8 @@ export const initialData= {
             price: 21000,
             sizes: ['125','250','500','1000'],
             slug: "queso_goudas",
-            type: 'lacteos',
-            tags: ['quesos'],
+            type: 'quesos',
+            tags: ['lacteos', 'quesos'],
             title: "Queso Gouda ",
             gender: 'quesos'
         },
@@ -75,8 +75,8 @@ export const initialData= {
             price: 21000,
             sizes: ['125','250','500','1000'],
             slug: "queso_edam",
-            type: 'lacteos',
-            tags: ['quesos'],
+            type: 'quesos',
+            tags: ['lacteos', 'quesos'],
             title: "Queso Edam ",
             gender: 'quesos'
         },
@@ -91,7 +91,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "costilla_ahumada",
             type: 'ahumado',
-            tags: ['ahumado'],
+            tags: ['ahumado', 'carne','cerdo'],
             title: "Costilla Ahumada ",
             gender: 'ahumados'
         },
@@ -106,7 +106,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "Carne_ahumada",
             type: 'ahumado',
-            tags: ['ahumados'],
+            tags: ['ahumado','carne','cerdo'],
             title: "Carne Ahumada ",
             gender: 'ahumados'
         },
@@ -121,7 +121,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "Tocineta_ahumada",
             type: 'ahumado',
-            tags: ['ahumados'],
+            tags: ['ahumados','carne','cerdo'],
             title: "Tocineta Ahumada ",
             gender: 'ahumados'
         },
@@ -136,12 +136,12 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "chorizo_cerdo",
             type: 'embutidos',
-            tags: ['chorizos'],
+            tags: ['chorizos','carne','cerdo'],
             title: "Chorizo Cerdo ",
             gender: 'chorizos'
         },
         {
-            description: "deliciosos Chorizos de Cerdo ,  con un gusto natural del Ahumado, lo deseara su paladar con un solo mosdisco.",
+            description: "deliciosas longanizas de Cerdo ,  con un gusto natural del Ahumado, lo deseara su paladar con un solo mosdisco.",
             images: [
                 'chorizo2.jpg',
                 'chorizo3.jpg',
@@ -151,12 +151,12 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "longaniza",
             type: 'embutidos',
-            tags: ['chorizos'],
+            tags: ['chorizos', 'carne','cerdo'],
             title: "Longaniza ",
             gender: 'chorizos'
         },
         {
-            description: "deliciosos butifarras ,  con un gusto natural del Ahumado, lo deseara su paladar con un solo mosdisco.",
+            description: "deliciosos butifarras de cerdo ,  con un gusto natural del Ahumado, lo deseara su paladar con un solo mosdisco.",
             images: [
                 'chorizo4.jpg',
                 'chorizo5.jpg',
@@ -166,7 +166,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "butifarra",
             type: 'embutidos',
-            tags: ['chorizos'],
+            tags: ['chorizos', 'carne','cerdo'],
             title: "Butifarra ",
             gender: 'chorizos'
         },
@@ -196,7 +196,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "chirozo_coctel",
             type: 'embutidos',
-            tags: ['chorizos'],
+            tags: ['chorizos','carne','cerdo'],
             title: "Chorizo Coctel ",
             gender: 'chorizos'
         },
@@ -211,7 +211,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "salchicha_perro",
             type: 'embutidos',
-            tags: ['salchichas'],
+            tags: ['salchichas','carne','cerdo'],
             title: "Salchicha Perro ",
             gender: 'salchichas'
         },
@@ -226,7 +226,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "salchicha",
             type: 'embutidos',
-            tags: ['salchichas'],
+            tags: ['salchichas','carne','cerdo'],
             title: "Salchicha ",
             gender: 'salchichas'
         },
@@ -241,7 +241,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "salami",
             type: 'embutidos',
-            tags: ['salchichas', 'salami'],
+            tags: ['salchichas', 'salami','carne','cerdo', 'res'],
             title: "Salchichon Salami ",
             gender: 'salchichas'
         },
@@ -256,7 +256,7 @@ export const initialData= {
             sizes: ['125','250','500','1000'],
             slug: "jamon",
             type: 'embutidos',
-            tags: ['jamon','salchichas'],
+            tags: ['jamon','salchichas', 'carne','cerdo'],
             title: "Jamon ",
             gender: 'salchichas'
         },

@@ -1,6 +1,6 @@
 
 export const ValidSize = ['125','250','500','1000'];
-export const ValidType = ['salchichas','chorizos','ahumados','quesos'];
+export const ValidType = ['ahumado','quesos','embutidos'];
 
 export const IProduct = {
     _id: '',
@@ -14,5 +14,7 @@ export const IProduct = {
     title: '',
     type: [],
     gender: ['salchichas','chorizos','ahumados','quesos']
+
+    // TODO: agregar cretedAT y updatedAT
 }
 
