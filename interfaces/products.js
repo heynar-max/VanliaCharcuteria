@@ -13,8 +13,11 @@ export const IProduct = {
     tags: '',
     title: '',
     type: [],
-    gender: ['salchichas','chorizos','ahumados','quesos']
+    gender: ['salchichas','chorizos','ahumados','quesos'],
 
     // TODO: agregar cretedAT y updatedAT
+
+    createdAt: '',
+    updatedAt: '',
 }
 
