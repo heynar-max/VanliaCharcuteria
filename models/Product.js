@@ -36,7 +36,7 @@ const productSchema = new mongoose.Schema({
 });
 
 // TODO : crear indice 'index' de mongo  para buscar entre 2 columnas
-
+productSchema.index({ title: 'text', tags: 'text' });
 
 
 const Product = mongoose.model('Product', productSchema );
