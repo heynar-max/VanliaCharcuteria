@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography'
 export default function HomePage( ) {
 
   const { products, isLoading } = useProducts('/products');
-  console.log({products})
 
   return (
     <ShopLayout title={'Vanlia - Home'} pageDescription={'Encuentra los mejores productos de charcuteria'} imageFullUrl={''}>
