@@ -39,7 +39,9 @@ const productSchema = new mongoose.Schema({
 productSchema.index({ title: 'text', tags: 'text' });
 
 
-const Product = mongoose.model('Product', productSchema );
+const Product = mongoose.models.Product || mongoose.model('Product',  productSchema);
+
+
 
 
 
