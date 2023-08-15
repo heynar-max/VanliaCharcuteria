@@ -3,6 +3,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import '@/styles/globals.css'
 import { lightTheme } from '@/themes'
 import { SWRConfig } from 'swr'
+import { UiProvider } from '@/context'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -11,10 +12,13 @@ export default function App({ Component, pageProps }) {
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >
-    <ThemeProvider theme={ lightTheme }>
-      <CssBaseline/>
-      <Component {...pageProps}/>
-    </ThemeProvider>
+      <UiProvider>
+        <ThemeProvider theme={ lightTheme }>
+          <CssBaseline/>
+          <Component {...pageProps}/>
+        </ThemeProvider>
+      </UiProvider>
+    
     </SWRConfig>
   )
 }
