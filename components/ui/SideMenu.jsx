@@ -1,14 +1,29 @@
 import { Box, Divider, Drawer, IconButton, Input, InputAdornment, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material"
 import { AccountCircleOutlined, AdminPanelSettings, CategoryOutlined, ConfirmationNumberOutlined, TableRestaurant, Restaurant, LoginOutlined,RestaurantMenu, KebabDining, SearchOutlined, VpnKeyOutlined } from "@mui/icons-material"
+import { useContext } from "react";
+import { UiContext } from "@/context";
+import { useRouter } from "next/router";
 
 
 export const SideMenu = () => {
+
+    const router = useRouter();
+    const { isMenuOpen, toggleSideMenu } = useContext( UiContext );
+
+    const navigateTo = ( url ) => {
+        toggleSideMenu();
+        router.push(url);
+    }
+
+
     return (
         <Drawer
-            open={ false }
+            open={ isMenuOpen }
             anchor='right'
-            sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }} 
             // backdropFilter: 'blur(4px)' es propio de CSS para opacidad fondo
+            sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }} 
+            // onClose toggleSideMenu es para cuando de clic fuera del sidemenu se cierre
+            onClose={ toggleSideMenu }
         >
             <Box sx={{ width: 250, paddingTop: 5 }}>
                 
@@ -44,14 +59,20 @@ export const SideMenu = () => {
                     </ListItem>
 
 
-                    <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                    <ListItem button 
+                    sx={{ display: { xs: '', sm: 'none' } }}
+                    onClick={ () => navigateTo('/category/salchichas') }
+                    >
                         <ListItemIcon>
                             <Restaurant/>
                         </ListItemIcon>
                         <ListItemText primary={'Salchichas'} />
                     </ListItem>
 
-                    <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                    <ListItem button 
+                    sx={{ display: { xs: '', sm: 'none' } }}
+                    onClick={ () => navigateTo('/category/chorizos') }
+                    >
                         <ListItemIcon>
                             <KebabDining/>
                         </ListItemIcon>
@@ -59,13 +80,19 @@ export const SideMenu = () => {
 
                     </ListItem>
 
-                    <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                    <ListItem button 
+                    sx={{ display: { xs: '', sm: 'none' } }}
+                    onClick={ () => navigateTo('/category/ahumados') }
+                    >
                         <ListItemIcon>
                             <TableRestaurant/>
                         </ListItemIcon>
                         <ListItemText primary={'Ahumados'} />
                     </ListItem>
-                    <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
+                    <ListItem button 
+                    sx={{ display: { xs: '', sm: 'none' } }}
+                    onClick={ () => navigateTo('/category/quesos') }
+                    >
                         <ListItemIcon>
                             <RestaurantMenu/>
                         </ListItemIcon>
