@@ -1,16 +1,16 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { ShopLayout } from '../../components/layouts';
-import { initialData } from '../../database/products';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
+import { dbProducts } from '@/database';
 
 
 
 
-const product = initialData.products[0];
 
+const ProductPage = ({ product }) => {
 
-const ProductPage = () => (
+    return(
 
   <ShopLayout title={product.title} pageDescription={product.description}>
 
@@ -63,5 +63,28 @@ const ProductPage = () => (
 
 
 )
+}
+
+export const getServerSideProps = async ({ params }) => {
+  
+    const { slug = '' } = params;
+    const product = await dbProducts.getProductBySlug( slug );
+  
+    if ( !product ) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+  
+    return {
+      props: {
+        product
+      }
+    }
+  }
+
 
 export default ProductPage
