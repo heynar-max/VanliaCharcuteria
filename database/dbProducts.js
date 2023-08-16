@@ -17,15 +17,15 @@ export const getProductBySlug = async( slug ) => {
 }
 
 
-// export const getAllProductSlugs = async()  => {
+export const getAllProductSlugs = async()  => {
 
 
-//     await db.connect();
-//     const slugs = await Product.find().select('slug -_id').lean();
-//     await db.disconnect();
+    await db.connect();
+    const slugs = await Product.find().select('slug -_id').lean();
+    await db.disconnect();
 
-//     return slugs;
-// }
+    return slugs;
+}
 
 // export const getProductsByTerm = async ( term ) => {
     
