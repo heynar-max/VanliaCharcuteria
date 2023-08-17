@@ -4,7 +4,7 @@ import { ValidSize } from '../../interfaces';
 
 
 
-export const SizeSelector = ({ selectedSize = ValidSize, sizes = ValidSize }) => {
+export const SizeSelector = ({ selectedSize = ValidSize, sizes = ValidSize, onSelectedSize }) => {
 
 
     return (
@@ -15,6 +15,7 @@ export const SizeSelector = ({ selectedSize = ValidSize, sizes = ValidSize }) =>
             size='small'
             // selectedSize es igual a size muestre secondary
             color={selectedSize === size ? 'secondary' : 'primary'}
+            onClick={() => onSelectedSize( size )}
             >
             {size}
             </Button>

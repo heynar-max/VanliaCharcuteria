@@ -3,12 +3,32 @@ import { ShopLayout } from '../../components/layouts';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
 import { dbProducts } from '@/database';
+import { useState } from 'react';
 
 
 
 
 
 const ProductPage = ({ product }) => {
+
+  const [tempCartProduct, setTempCartProduct] = useState({
+    _id: product._id,
+    image: product.images[0],
+    price: product.price,
+    size: undefined,
+    slug: product.slug,
+    title: product.title,
+    gender: product.gender,
+    quantity: 1,
+  })
+
+  const selectedSize = ( size ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      size
+    }));
+  }
+
 
     return(
 
@@ -35,7 +55,9 @@ const ProductPage = ({ product }) => {
             <ItemCounter />
             {/* selector  */}
             <SizeSelector
-            selectedSize={[]}           
+            sizes={product.sizes}
+            selectedSize={tempCartProduct.size}           
+            onSelectedSize={ selectedSize }
             />
           </Box>
 
@@ -48,7 +70,12 @@ const ProductPage = ({ product }) => {
                       color="secondary" 
                       className='circular-btn'
                     >
-                    Agregar a Carrito
+                      {
+                        tempCartProduct.size
+                        ? 'Agregar a Carrito'
+                        : 'Selecione una talla'
+                      }
+                    
                     </Button>
                 )
                 : (
