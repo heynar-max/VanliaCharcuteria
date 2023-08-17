@@ -27,31 +27,21 @@ export const getAllProductSlugs = async()  => {
     return slugs;
 }
 
-// export const getProductsByTerm = async ( term ) => {
+export const getProductsByTerm = async ( term ) => {
     
-//     term = term.toString().toLowerCase();
+    term = term.toString().toLowerCase();
 
-//     await db.connect();
-//     const products = await Product.find({
-//         $text: { $search: term }
-//     })
-//     .select('title images price inStock slug -_id')
-//     .lean();
+    await db.connect();
+    const products = await Product.find({
+        $text: { $search: term }
+    })
+    .select('title images price inStock slug -_id')
+    .lean();
 
-//     await db.disconnect();
+    await db.disconnect();
 
-//     return products;
-// }
+    return products;
+}
 
-
-// export const getAllProducts = async() => {
-
-//     await db.connect();
-//     const products = await Product.find().lean();
-//     await db.disconnect();
-
-
-//     return JSON.parse( JSON.stringify( products ) );
-// }
 
 
