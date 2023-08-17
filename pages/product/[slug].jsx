@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import { ShopLayout } from '../../components/layouts';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
@@ -41,11 +41,20 @@ const ProductPage = ({ product }) => {
 
 
           {/* Agregar al carrito */}
-          <Button color="secondary" className='circular-btn'>
-            Agregar al carrito
-          </Button>
-
-          {/* <Chip label="No hay disponibles" color="error" variant='outlined' /> */}
+            {
+                (product.inStock > 0)
+                ? (
+                    <Button 
+                      color="secondary" 
+                      className='circular-btn'
+                    >
+                    Agregar a Carrito
+                    </Button>
+                )
+                : (
+                  <Chip label="No hay disponibles" color="error" variant='outlined' />
+                )
+              }
 
           {/* Descripción */}
           <Box sx={{ mt: 3 }}>
