@@ -44,4 +44,14 @@ export const getProductsByTerm = async ( term ) => {
 }
 
 
+export const getAllProducts = async() => {
+
+    await db.connect();
+    const products = await Product.find().lean();
+    await db.disconnect();
+
+
+    return JSON.parse( JSON.stringify( products ) );
+}
+
 
