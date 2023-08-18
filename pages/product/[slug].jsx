@@ -3,13 +3,16 @@ import { ShopLayout } from '../../components/layouts';
 import { ProductSlideshow, SizeSelector } from '@/components/products';
 import { ItemCounter } from '@/components/ui';
 import { dbProducts } from '@/database';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { CartContext } from '@/context';
 
 
 
 
 
 const ProductPage = ({ product }) => {
+
+  const { addProductToCart } = useContext( CartContext )
 
   const [tempCartProduct, setTempCartProduct] = useState({
     _id: product._id,
@@ -27,6 +30,18 @@ const ProductPage = ({ product }) => {
       ...currentProduct,
       size
     }));
+  }
+
+  const onUpdateQuantity = ( quantity ) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      quantity
+    }));
+  }
+
+  const onAddProduct = () => {
+
+    console.log({tempCartProduct})
   }
 
 
@@ -52,7 +67,12 @@ const ProductPage = ({ product }) => {
           <Box sx={{ my: 2 }}>
             <Typography variant='subtitle2'>Cantidad</Typography>
             {/* Item Counter contador de articulos */}
-            <ItemCounter />
+            <ItemCounter
+              currentValue={ tempCartProduct.quantity }
+              updatedQuantity={ onUpdateQuantity  }
+              // es cuando hay mucha demanda y no deje vender mas de > 10 ? 10 productos
+              maxValue={ product.inStock > 10 ? 10: product.inStock }
+            />
             {/* selector  */}
             <SizeSelector
             sizes={product.sizes}
@@ -69,6 +89,7 @@ const ProductPage = ({ product }) => {
                     <Button 
                       color="secondary" 
                       className='circular-btn'
+                      onClick={ onAddProduct}
                     >
                       {
                         tempCartProduct.size
