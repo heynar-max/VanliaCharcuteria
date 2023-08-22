@@ -1,25 +1,21 @@
+import { types } from "@/types/types";
 
 
-import { CartState } from '.';
-import { ICartProduct } from '../../interfaces';
 
-export const cartReducers = (state, action) => {
-      switch (action.type) {
-      case '[Cart] - LoadCart from cookies | storage':
-         return {
-            ...state,
-            ICartProduct: action.payload, 
-         };
-   
-      case '[Cart] - Add Products':
-         
-         return {
-            ...state,
-            ICartProduct: [...state.ICartProduct, ...action.payload], 
-         };
+export const cartReducer = (state, action) => {
+   switch (action.type) {
+
+      case types.LoadCart:
+         return{ ...state,
+         cart: [...action.payload]
+         }
+      case types.Update:
+      return {
+         ...state,
+         cart: [...state.cart,action.payload]
+      };
    
       default:
          return state;
-      }
-   };
-
+   }
+}

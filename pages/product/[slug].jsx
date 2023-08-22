@@ -5,6 +5,7 @@ import { ItemCounter } from '@/components/ui';
 import { dbProducts } from '@/database';
 import { useContext, useState } from 'react';
 import { CartContext } from '@/context';
+import { useRouter } from 'next/router';
 
 
 
@@ -12,7 +13,9 @@ import { CartContext } from '@/context';
 
 const ProductPage = ({ product }) => {
 
-  const { addProductToCart } = useContext( CartContext )
+  const router = useRouter();
+
+  const  { addProductToCart } = useContext( CartContext )
 
   const [tempCartProduct, setTempCartProduct] = useState({
     _id: product._id,
@@ -39,10 +42,20 @@ const ProductPage = ({ product }) => {
     }));
   }
 
+  
   const onAddProduct = () => {
 
-    console.log({tempCartProduct})
+    if ( !tempCartProduct.size ) { return; }
+
+    // llamar el context para agregar al carrito
+    
+    addProductToCart(tempCartProduct);
+    
+    router.push('/cart');
   }
+
+  
+
 
 
     return(
