@@ -1,5 +1,6 @@
 
-import {  useReducer } from 'react';
+import {  useEffect, useReducer } from 'react';
+import Cookie from 'js-cookie';
 
 import { CartContext, cartReducer } from '.';
 
@@ -18,13 +19,33 @@ export const CartProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(cartReducer , CART_INITIAL_STATE  );
 
+    // Efecto
+    useEffect(() => {
+        try {
+            // ? si existe ( Cookie.get('cart') ) parsealo : de lo contrario agreglo vacio []
+            const cookieProducts = Cookie.get('cart') ? JSON.parse( Cookie.get('cart') ): [];
+            dispatch({ type: types.LoadCart, payload: cookieProducts  });
+        }catch (error) {
+            dispatch({ type: types.LoadCart, payload: [] });
+        }
+        
+    }, []);
+
+    // Cookie solo graba String Cookie.set('cart'), por que nuestro cart es un objecto, hay que
+    // SETalizarlo asi JSON.stringify( state.cart )
+    useEffect(() => {
+        Cookie.set('cart', JSON.stringify( state.cart ));
+    }, [state.cart]);
+
+
+
     const addProductToCart = ( product = ICartProduct ) => {
 
         const productInCart = state.cart.some( p => p._id === product._id );
-        if ( !productInCart ) return dispatch({ type: types.Update, payload:  product  })
+        if ( !productInCart ) return dispatch({ type: types.Update, payload:[...state.cart,  product ]  })
     
         const productInCartButDifferentSize = state.cart.some( p => p._id === product._id && p.size === product.size );
-        if ( !productInCartButDifferentSize ) return dispatch({ type: types.Update, payload:  product  })
+        if ( !productInCartButDifferentSize ) return dispatch({ type: types.Update, payload:[...state.cart,  product ]  })
 
           // Acumular
         const updatedProducts = state.cart.map( p => {
@@ -35,8 +56,8 @@ export const CartProvider = ({ children }) => {
             p.quantity += product.quantity;
             return p;
     });
-
-    dispatch({ updatedProducts });
+// MIRA
+    dispatch({type: types.Update, payload: updatedProducts });
     
     }
     
