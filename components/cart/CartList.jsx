@@ -17,12 +17,15 @@ export const CartList = ({ editable = false }) => {
 
     return (
         <>
+        {/* Antes estaba product.slug pero se le agrego + product.size por que se duplica el slug 
+        cuando se agrega un producto del mismo slug pero de diferente size da error, 
+        se pone size para que tome el size varias veces */}
             {
                 cart.map( product => (
-                    <Grid container spacing={2} key={ product.slug } sx={{ mb:1 }}>
+                    <Grid container spacing={2} key={ product.slug + product.size } sx={{ mb:1 }}>
                         <Grid item xs={3}>
                             {/* TODO: llevar a la página del producto */}
-                            <NextLink href="/product/slug" passHref legacyBehavior>
+                            <NextLink href={`/product/${product.slug}`} passHref legacyBehavior>
                                 <Link>
                                     <CardActionArea>
                                         <CardMedia 
