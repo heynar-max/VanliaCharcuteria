@@ -12,7 +12,12 @@ import { CartContext } from '@/context';
 export const CartList = ({ editable = false }) => {
 
 
-    const {cart} = useContext(CartContext)
+    const {cart, updateCartQuantity} = useContext(CartContext);
+
+    const onNewCartQuantityValue = (product, newQuantityValue) => {
+        product.quantity = newQuantityValue;
+        updateCartQuantity( product );
+    }
 
 
     return (
@@ -40,7 +45,7 @@ export const CartList = ({ editable = false }) => {
                         <Grid item xs={7}>
                             <Box display='flex' flexDirection='column'>
                                 <Typography variant='body1'>{ product.title }</Typography>
-                                <Typography variant='body1'>Talla: <strong>M</strong></Typography>
+                                <Typography variant='body1'>Tamaño: <strong>{ product.size }</strong></Typography>
                                     {/* Condicional */}
 
                                     {
@@ -50,7 +55,7 @@ export const CartList = ({ editable = false }) => {
                                             <ItemCounter 
                                             currentValue={product.quantity}
                                             maxValue={10}
-                                            updatedQuantity={()=>{}}
+                                            updatedQuantity={ ( value )=> onNewCartQuantityValue( product, value )}
                                             />
                                         )
                                         : (
