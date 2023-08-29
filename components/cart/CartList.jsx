@@ -2,23 +2,23 @@
 import NextLink from 'next/link';
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 
-import { initialData } from '../../database/products';
-import { ItemCounter } from '../ui';
 
-const productsInCart = [
-    initialData.products[0],
-    initialData.products[1],
-    initialData.products[2],
-]
+import { ItemCounter } from '../ui';
+import { useContext } from 'react';
+import { CartContext } from '@/context';
 
 
 
 export const CartList = ({ editable = false }) => {
 
+
+    const {cart} = useContext(CartContext)
+
+
     return (
         <>
             {
-                productsInCart.map( product => (
+                cart.map( product => (
                     <Grid container spacing={2} key={ product.slug } sx={{ mb:1 }}>
                         <Grid item xs={3}>
                             {/* TODO: llevar a la página del producto */}
@@ -26,7 +26,7 @@ export const CartList = ({ editable = false }) => {
                                 <Link>
                                     <CardActionArea>
                                         <CardMedia 
-                                            image={ `/products/${ product.images[0] }` }
+                                            image={ `/products/${ product.image }` }
                                             component='img'
                                             sx={{ borderRadius: '5px' }}
                                         />
@@ -42,8 +42,17 @@ export const CartList = ({ editable = false }) => {
 
                                     {
                                         editable 
-                                        ? <ItemCounter />
-                                        : <Typography variant='h5'>3 items</Typography>
+                                        ?(
+                                            // maxValue es para decidir cuantos productos llevar
+                                            <ItemCounter 
+                                            currentValue={product.quantity}
+                                            maxValue={10}
+                                            updatedQuantity={()=>{}}
+                                            />
+                                        )
+                                        : (
+                                        <Typography variant='h5'>{product.quantity} {product.quantity >1 ? 'Productos':'Producto'}</Typography>
+                                        )
                                     }
                                 
                             </Box>
