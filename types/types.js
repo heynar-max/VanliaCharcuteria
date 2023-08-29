@@ -15,5 +15,9 @@ export const types ={
         type:'[Cart] - Change cart quantity',
         payload: ICartProduct,
     },
+    Remove:{
+        type:'[Cart] -Remove product in cart',
+        payload: ICartProduct,
+    },
 
 }

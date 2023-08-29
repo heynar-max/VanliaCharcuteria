@@ -12,7 +12,7 @@ import { CartContext } from '@/context';
 export const CartList = ({ editable = false }) => {
 
 
-    const {cart, updateCartQuantity} = useContext(CartContext);
+    const {cart, updateCartQuantity, removeCartProduct} = useContext(CartContext);
 
     const onNewCartQuantityValue = (product, newQuantityValue) => {
         product.quantity = newQuantityValue;
@@ -71,7 +71,11 @@ export const CartList = ({ editable = false }) => {
                             
                             {
                                 editable && (
-                                    <Button variant='text' color='secondary' >
+                                    <Button 
+                                    variant='text' 
+                                    color='secondary' 
+                                    onClick={ () => removeCartProduct( product ) }
+                                    >
                                         Remover
                                     </Button>
                                 )

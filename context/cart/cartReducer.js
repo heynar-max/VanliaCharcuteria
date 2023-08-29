@@ -25,6 +25,18 @@ export const cartReducer = (state , action) => {
             return action.payload;
          })
       };
+
+      case types.Remove:
+      return {
+         ...state,
+         // cart: state.cart.filter( product => !(product._id === action.payload._id && product.size === action.payload.size ))
+         cart: state.cart.filter( product => {
+            if (product._id === action.payload._id && product.size === action.payload.size ){
+               return false;
+            }
+            return true;
+         })
+      };
    
       default:
          return state;
