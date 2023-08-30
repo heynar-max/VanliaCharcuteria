@@ -1,9 +1,20 @@
-
-
-
-
+import bcrypt from 'bcryptjs';
 
 export const initialData= {
+    users: [
+        {
+            name    : 'Heynar Soto Holguin',
+            email   : 'heynar76@hotmail.com',
+            password: bcrypt.hashSync('123456'),
+            role    : 'admin'
+        },
+        {
+            name    : 'Janeth Narvaez',
+            email   : 'majana444@hotmail.com',
+            password: bcrypt.hashSync('123456'),
+            role    : 'client'
+        },
+    ],
     products: [
         {
             description: "delicioso queso casero, suave delicioso con un gusto natural del queso campesino, lo deseara su paladar con un solo mosdisco.",
