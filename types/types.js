@@ -19,5 +19,14 @@ export const types ={
         type:'[Cart] -Remove product in cart',
         payload: ICartProduct,
     },
+    Summary:{
+        type:'[Cart] -Update order summary',
+        payload: {
+            numberOfItems: Number,
+            subTotal: Number,
+            tax: Number,
+            total: Number,
+        },
+    },
 
 }

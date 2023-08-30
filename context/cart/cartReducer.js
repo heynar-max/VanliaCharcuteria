@@ -37,6 +37,12 @@ export const cartReducer = (state , action) => {
             return true;
          })
       };
+
+      case types.Summary:
+         return {
+            ...state,
+            ...action.payload
+         }
    
       default:
          return state;

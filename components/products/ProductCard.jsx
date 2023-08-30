@@ -3,6 +3,7 @@ import { IProduct } from '@/interfaces'
 import NextLink from 'next/link';
 import { Grid, Card, CardActionArea, CardMedia, Box, Typography, Link, Chip } from '@mui/material'
 import { useMemo, useState } from 'react';
+import { currency } from '@/utils';
 
 
 export const ProductCard= ({ product = IProduct }) => {
@@ -55,7 +56,7 @@ export const ProductCard= ({ product = IProduct }) => {
                 {/* fadein es una animacion de global*/}
                 <Box sx={{ mt: 1, display: isImageLoaded ? 'block' : 'none'  }} className='fadeIn'>
                     <Typography fontWeight={700} marginLeft={2}>{ product.title }</Typography>
-                    <Typography fontWeight={500} marginLeft={2}>{ `$${product.price}` }</Typography>
+                    <Typography fontWeight={500} marginLeft={2}>{ currency.format(product.price) }</Typography>
                 </Box>
             
             </Card>

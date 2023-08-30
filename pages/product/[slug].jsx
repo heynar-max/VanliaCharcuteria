@@ -6,6 +6,7 @@ import { dbProducts } from '@/database';
 import { useContext, useState } from 'react';
 import { CartContext } from '@/context';
 import { useRouter } from 'next/router';
+import { currency } from '@/utils';
 
 
 
@@ -74,7 +75,7 @@ const ProductPage = ({ product }) => {
 
           {/* titulos */}
           <Typography variant='h1' component='h1'>{product.title}</Typography>
-          <Typography variant='subtitle1' component='h2'>{`$${product.price}`}</Typography>
+          <Typography variant='subtitle1' component='h2'>{currency.format(product.price)}</Typography>
 
           {/* Cantidad */}
           <Box sx={{ my: 2 }}>

@@ -11,6 +11,10 @@ import { ICartProduct } from '@/interfaces';
 
 const CART_INITIAL_STATE   = {
     cart: [],
+    numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
     
 }
 
@@ -37,7 +41,22 @@ export const CartProvider = ({ children }) => {
         Cookie.set('cart', JSON.stringify( state.cart ));
     }, [state.cart]);
 
+    useEffect(() => {
+        
+        // previousValue es el valor anterior y  currenValue es la iteracion actual del arreglo
+        const numberOfItems = state.cart.reduce( ( prev, current ) => current.quantity + prev , 0 );
+        const subTotal = state.cart.reduce( ( prev, current ) => (current.price * current.quantity) + prev, 0 );
+        const taxRate =  Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
+    
+        const orderSummary = {
+            numberOfItems,
+            subTotal,
+            tax: subTotal * taxRate,
+            total: subTotal * ( taxRate + 1 )
+        }
 
+        dispatch({ type: types.Summary, payload: orderSummary });
+    }, [state.cart]);
 
     const addProductToCart = ( product = ICartProduct ) => {
 
