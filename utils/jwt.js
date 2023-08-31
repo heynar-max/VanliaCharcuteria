@@ -21,7 +21,7 @@ export const signToken = ( _id, email) => {
 }
 
 
-
+// para validar el token 
 export const isValidToken = ( token ) => {
     if ( !process.env.JWT_SECRET_SEED ) {
         throw new Error('No hay semilla de JWT - Revisar variables de entorno');
