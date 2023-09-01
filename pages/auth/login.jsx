@@ -1,15 +1,31 @@
 import NextLink from 'next/link';
-import { Box, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../../components/layouts'
 import { useForm } from 'react-hook-form';
 import { validations } from '@/utils';
+import { vanliApi } from '@/api';
+import { ErrorOutline } from '@mui/icons-material';
+import { useState } from 'react';
 
 const LoginPage = () => {
 
     const { register, handleSubmit,  formState: { errors },} = useForm ();
 
-    const onLoginUser = async( data ) => {
-        console.log(data)
+    const [ showError, setShowError ] = useState(false);
+
+    const onLoginUser = async( { email, password } ) => {
+        
+        setShowError(false);
+        try{
+            const {data} =await vanliApi.post('/user/login', {email,password});
+            const { token , user } = data;
+            console.log({token, user});
+
+        }catch(error){
+            console.log('error en las credenciales');
+            setShowError(true);
+            setTimeout(() => setShowError(false), 3000);
+        }
         
     }
         return (
@@ -19,6 +35,13 @@ const LoginPage = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography variant='h1' component="h1">Iniciar Sesión</Typography>
+                                <Chip 
+                                label="No reconocemos ese usuario / contraseña"
+                                color="error"
+                                icon={ <ErrorOutline /> }
+                                className="fadeIn"
+                                sx={{ display: showError ? 'flex': 'none' }}
+                            />
                             </Grid>
 
                             <Grid item xs={12}>
