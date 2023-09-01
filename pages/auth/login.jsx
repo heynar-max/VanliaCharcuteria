@@ -5,9 +5,14 @@ import { useForm } from 'react-hook-form';
 import { validations } from '@/utils';
 import { vanliApi } from '@/api';
 import { ErrorOutline } from '@mui/icons-material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '@/context';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
+
+    const router = useRouter();
+    const { loginUser } = useContext( AuthContext );
 
     const { register, handleSubmit,  formState: { errors },} = useForm ();
 
@@ -16,16 +21,18 @@ const LoginPage = () => {
     const onLoginUser = async( { email, password } ) => {
         
         setShowError(false);
-        try{
-            const {data} =await vanliApi.post('/user/login', {email,password});
-            const { token , user } = data;
-            console.log({token, user});
 
-        }catch(error){
-            console.log('error en las credenciales');
+        const isValidLogin = await loginUser( email, password );
+
+        if ( !isValidLogin ) {
             setShowError(true);
             setTimeout(() => setShowError(false), 3000);
+            return;
         }
+
+        // Todo: navegar a la pantalla que el usuario estaba
+        router.replace('/');
+
         
     }
         return (
