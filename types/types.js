@@ -1,4 +1,4 @@
-import { ICartProduct } from "@/interfaces"
+import { ICartProduct, IUser } from "@/interfaces"
 
 
 
@@ -28,5 +28,13 @@ export const types ={
             total: Number,
         },
     },
+    Login:{
+        type: '[Auth] - Login', 
+        payload: IUser,
+    },
+    Logout:{
+        type: '[Auth] - Logout', 
+    },
+
 
 }
