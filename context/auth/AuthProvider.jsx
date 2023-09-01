@@ -36,12 +36,41 @@ export const AuthProvider= ({ children }) => {
 
     }
 
+    const registerUser = async( name, email, password ) => {
+
+        try {
+            const { data } = await vanliApi.post('/user/register', { name, email, password });
+            const { token, user } = data;
+            Cookies.set('token', token );
+            dispatch({ type:types.Login, payload: user });
+            return {
+                hasError: false
+            }
+
+        } catch (error) {
+            // cuando hay error de axios
+            if ( axios.isAxiosError(error) ) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message
+                }
+            }
+            // cuando no es error de axios
+            return {
+                hasError: true,
+                message: 'No se pudo crear el usuario - intente de nuevo'
+            }
+        }
+    }
+
+
     return (
         <AuthContext.Provider value={{
             ...state,
 
             // Methods
             loginUser,
+            registerUser,
 
         }}>
             { children }

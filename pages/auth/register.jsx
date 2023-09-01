@@ -3,30 +3,35 @@ import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/mater
 import { AuthLayout } from '../../components/layouts'
 import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { validations } from '@/utils';
-import { vanliApi } from '@/api';
+import { useRouter } from 'next/router';
+import { AuthContext } from '@/context';
 
 const RegisterPage = () => {
 
+    const router = useRouter();
+    const { registerUser } = useContext( AuthContext );
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [ showError, setShowError ] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState('');
     
 
     const onRegisterForm = async( {  name, email, password } ) => {
         
         setShowError(false);
-        try{
-            const {data} =await vanliApi.post('/user/register', {name, email, password});
-            const { token , user } = data;
-            console.log({token, user});
+        const { hasError, message } = await registerUser(name, email, password);
 
-        }catch(error){
-            console.log('error en las credenciales');
+        if ( hasError ) {
             setShowError(true);
+            setErrorMessage( message );
             setTimeout(() => setShowError(false), 3000);
+            return;
         }
+        
+        // Todo: navegar a la pantalla que el usuario estaba
+        router.replace('/');
 
     }
 
