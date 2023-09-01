@@ -19,6 +19,21 @@ export const AuthProvider= ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
 
+    useEffect(() => {
+        checkToken();
+    }, [])
+
+    const checkToken = async() => {
+
+        try {
+            const { data } = await vanliApi.get('/user/validate-token');
+            const { token, user } = data;
+            Cookies.set('token', token );
+            dispatch({ type:types.Login, payload: user });
+        } catch (error) {
+            Cookies.remove('token');
+        }
+    }
     
 
 
