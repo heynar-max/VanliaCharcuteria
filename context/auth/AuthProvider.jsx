@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { vanliApi } from '@/api';
 import { types } from '@/types/types';
+import { useRouter } from 'next/router';
 
 
 
@@ -18,6 +19,7 @@ const AUTH_INITIAL_STATE = {
 export const AuthProvider= ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
+    const router = useRouter();
 
     useEffect(() => {
         checkToken();
@@ -81,6 +83,12 @@ export const AuthProvider= ({ children }) => {
         }
     }
 
+    const logout = () => {
+        Cookies.remove('token');
+        Cookies.remove('cart');
+        router.reload();
+    }
+
 
     return (
         <AuthContext.Provider value={{
@@ -89,6 +97,7 @@ export const AuthProvider= ({ children }) => {
             // Methods
             loginUser,
             registerUser,
+            logout,
 
         }}>
             { children }

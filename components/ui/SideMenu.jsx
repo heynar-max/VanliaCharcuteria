@@ -9,7 +9,7 @@ export const SideMenu = () => {
 
     const router = useRouter();
     const { isMenuOpen, toggleSideMenu } = useContext( UiContext );
-    const { user, isLoggedIn } = useContext(  AuthContext );
+    const { user, isLoggedIn, logout } = useContext(  AuthContext );
     const [searchTerm, setSearchTerm] = useState('');
 
     const onSearchTerm = () => {
@@ -121,14 +121,17 @@ export const SideMenu = () => {
                     {
                         isLoggedIn
                         ? (
-                            <ListItem button>
+                            <ListItem button onClick={ logout }>
                                 <ListItemIcon>
                                     <LoginOutlined/>
                                 </ListItemIcon>
                                 <ListItemText primary={'Salir'} />
                             </ListItem>
                         ) : (
-                            <ListItem button>
+                            <ListItem 
+                            button
+                            onClick={ () => navigateTo(`/auth/login?p=${ router.asPath }`)}
+                            >
                                 <ListItemIcon>
                                     <VpnKeyOutlined/>
                                 </ListItemIcon>
