@@ -25,6 +25,9 @@ export const AuthProvider= ({ children }) => {
 
     const checkToken = async() => {
 
+        if ( !Cookies.get('token') ) {
+            return;
+        }
         try {
             const { data } = await vanliApi.get('/user/validate-token');
             const { token, user } = data;
