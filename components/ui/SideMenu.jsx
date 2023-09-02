@@ -79,7 +79,7 @@ export const SideMenu = () => {
 
 
                     <ListItem button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
+                    sx={{ display: { xs: '', md: 'none' } }}
                     onClick={ () => navigateTo('/category/salchichas') }
                     >
                         <ListItemIcon>
@@ -89,7 +89,7 @@ export const SideMenu = () => {
                     </ListItem>
 
                     <ListItem button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
+                    sx={{ display: { xs: '',  md: 'none'  } }}
                     onClick={ () => navigateTo('/category/chorizos') }
                     >
                         <ListItemIcon>
@@ -100,7 +100,7 @@ export const SideMenu = () => {
                     </ListItem>
 
                     <ListItem button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
+                    sx={{ display: { xs: '',  md: 'none'  } }}
                     onClick={ () => navigateTo('/category/ahumados') }
                     >
                         <ListItemIcon>
@@ -109,7 +109,7 @@ export const SideMenu = () => {
                         <ListItemText primary={'Ahumados'} />
                     </ListItem>
                     <ListItem button 
-                    sx={{ display: { xs: '', sm: 'none' } }}
+                    sx={{ display: { xs: '',  md: 'none'  } }}
                     onClick={ () => navigateTo('/category/quesos') }
                     >
                         <ListItemIcon>
