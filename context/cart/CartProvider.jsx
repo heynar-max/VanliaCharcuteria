@@ -10,6 +10,7 @@ import { ICartProduct } from '@/interfaces';
 
 
 const CART_INITIAL_STATE   = {
+    isLoaded: false,
     cart: [],
     numberOfItems: 0,
     subTotal: 0,

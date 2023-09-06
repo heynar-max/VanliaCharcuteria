@@ -8,6 +8,7 @@ export const cartReducer = (state , action) => {
 
       case types.LoadCart:
          return{ ...state,
+            isLoaded: true,
          cart: [...state.cart,...action.payload]
          }
 
