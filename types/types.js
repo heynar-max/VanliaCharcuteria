@@ -37,8 +37,10 @@ export const types ={
     },
 
     ShippingAddressLoad: {
-        type: 'LoadAddress from Cookies',
-        
+        type: '[Cart] - LoadAddress from Cookies',
+    },
+    ShippingAddressUpdate: {
+        type: '[Cart] - Update Address',
     },
 
 
