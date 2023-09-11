@@ -36,5 +36,10 @@ export const types ={
         type: '[Auth] - Logout', 
     },
 
+    ShippingAddressLoad: {
+        type: 'LoadAddress from Cookies',
+        
+    },
+
 
 }

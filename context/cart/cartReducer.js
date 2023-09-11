@@ -44,8 +44,14 @@ export const cartReducer = (state , action) => {
          return {
             ...state,
             ...action.payload
-         }
-   
+         };
+         
+         case types.ShippingAddressLoad:
+         return {
+            ...state,
+            shippingAddress: action.payload
+         };
+
       default:
          return state;
    }
