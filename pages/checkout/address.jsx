@@ -36,6 +36,7 @@ const AddressPage = () => {
             updateAddress(data);
             router.push('/checkout/summary');
     }
+    
     return (
         <ShopLayout title="Dirección" pageDescription="Confirmar dirección del destino">
             <form onSubmit={handleSubmit(onSubmitAddress)}>
@@ -116,10 +117,11 @@ const AddressPage = () => {
                     
                     <Grid item xs={12} sm={ 6 }>
                         <FormControl fullWidth>
-                            <Select
+                            <TextField
+                                select
                                 variant="filled"
                                 label="País"
-                                value={countries[14].code}
+                                defaultValue={ Cookies.get('country') || countries[14].code }
                                 { ...register('country', {
                                     required: 'Este campo es requerido',
                                 })}
@@ -135,7 +137,7 @@ const AddressPage = () => {
                                         
                                     ))
                                 }
-                            </Select>
+                            </TextField>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={ 6 }>
