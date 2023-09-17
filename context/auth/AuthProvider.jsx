@@ -5,6 +5,7 @@ import axios from 'axios';
 import { vanliApi } from '@/api';
 import { types } from '@/types/types';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -19,11 +20,15 @@ const AUTH_INITIAL_STATE = {
 export const AuthProvider= ({ children }) => {
 
     const [state, dispatch] = useReducer( authReducer, AUTH_INITIAL_STATE );
+    const { data , status} = useSession();
     const router = useRouter();
 
+
     useEffect(() => {
-        checkToken();
-    }, [])
+        if( status === 'authenticated'){
+            console.log({user: data?.user});
+        };
+    }, [status, data])
 
     const checkToken = async() => {
 
