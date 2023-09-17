@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import Credentials from 'next-auth/providers/credentials';
+import { dbUsers } from "@/database";
 
 
 export const authOptions = {
@@ -15,9 +16,8 @@ export const authOptions = {
             },
             async authorize(credentials) {
                 console.log({credentials})
-                return { name: 'Juan', correo: 'juan@google.com', role: 'admin' };
     
-                // return await dbUsers.checkUserEmailPassword( credentials.email, credentials.password );
+                return await dbUsers.checkUserEmailPassword( credentials.email, credentials.password );
     
             }
 
@@ -44,7 +44,9 @@ export const authOptions = {
         
                 switch( account.type ) {
         
-                
+                case 'oauth': 
+                    token.user = await dbUsers.oAUthToDbUser( user?.email || '', user?.name || '' );
+                break;
         
                 case 'credentials':
                     token.user = user;
@@ -58,6 +60,7 @@ export const authOptions = {
     
     
         async session({ session, token, user }){
+          // console.log({ session, token, user });
     
             session.accessToken = token.accessToken;
             session.user = token.user;
