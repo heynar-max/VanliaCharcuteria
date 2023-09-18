@@ -5,7 +5,7 @@ import axios from 'axios';
 import { vanliApi } from '@/api';
 import { types } from '@/types/types';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 
 
 
@@ -27,6 +27,7 @@ export const AuthProvider= ({ children }) => {
     useEffect(() => {
         if( status === 'authenticated'){
             console.log({user: data?.user});
+            dispatch({type:types.Login, payload: data?.user})
         };
     }, [status, data])
 
@@ -89,7 +90,7 @@ export const AuthProvider= ({ children }) => {
     }
 
     const logout = () => {
-        Cookies.remove('token');
+        
         Cookies.remove('cart');
         Cookies.remove('firstName');
         Cookies.remove('lastName');
@@ -100,7 +101,8 @@ export const AuthProvider= ({ children }) => {
         Cookies.remove('country');
         Cookies.remove('phone');
 
-        router.reload();
+        signOut();
+    
     }
 
 
