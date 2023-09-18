@@ -33,6 +33,11 @@ export const authOptions = {
         // ...add more providers here
     ],
 
+    // Custom Pages
+    pages: {
+        signIn: '/auth/login',
+        newUser: '/auth/register'
+    },
 
     callbacks: {
 
