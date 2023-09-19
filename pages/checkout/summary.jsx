@@ -4,15 +4,23 @@ import { Link, Box, Button, Card, CardContent, Divider, Grid, Typography } from 
 
 import { ShopLayout } from '../../components/layouts/ShopLayout';
 import { CartList, OrderSummary } from '../../components/cart';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { CartContext } from '@/context';
 import { countries } from '@/utils';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 
 const SummaryPage = () => {
 
+    const router = useRouter();
     const { shippingAddress, numberOfItems } = useContext( CartContext );
-    console.log(shippingAddress);
+
+    useEffect(() => {
+        if ( !Cookies.get('firstName') ) {
+            router.push('/checkout/address');
+        }
+    }, [ router ]);
     // si el shippingAddress no existe retorname un fragmento <></>
     if ( !shippingAddress ) {
         return <></>;
@@ -46,7 +54,8 @@ const SummaryPage = () => {
                             <Typography>{ firstName } { lastName }</Typography>
                             <Typography>{ address }{ address2 ? `, ${address2}` : ''  } </Typography>
                             <Typography>{ city }, { zip }</Typography>
-                            <Typography>{ countries.find( c => c.code === country )?.name }</Typography>
+                            {/* <Typography>{ countries.find( c => c.code === country )?.name }</Typography> */}
+                            <Typography>{ country}</Typography>
                             <Typography>{ phone }</Typography>
 
                                 {/* dividir o linea */}

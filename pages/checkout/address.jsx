@@ -4,7 +4,7 @@ import { countries } from "@/utils"
 import { useForm } from "react-hook-form"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { CartContext } from "@/context"
 
 const getAddressFromCookies = () => {
@@ -27,9 +27,23 @@ const AddressPage = () => {
     const router = useRouter();
     const { updateAddress} = useContext( CartContext );
 
-    const { register, handleSubmit,  formState: { errors },} = useForm ({
-        defaultValues: getAddressFromCookies()
+    const { register, handleSubmit,  formState: { errors },reset} = useForm ({
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            address: '',
+            address2: '',
+            zip: '',
+            city: '',
+            country: countries[14].code,
+            phone: '',
+        } 
     });
+
+    useEffect(() => {
+        reset(getAddressFromCookies() );
+
+    }, [reset])
     
     const onSubmitAddress = (data) => {
 
@@ -118,17 +132,17 @@ const AddressPage = () => {
                     <Grid item xs={12} sm={ 6 }>
                         <FormControl fullWidth>
                             <TextField
-                                select
+                                // select
                                 variant="filled"
                                 label="País"
-                                defaultValue={ Cookies.get('country') || countries[14].code }
+                                // defaultValue={ Cookies.get('country') || countries[14].code }
                                 { ...register('country', {
                                     required: 'Este campo es requerido',
                                 })}
                                 error={ errors.country }
-                                // helperText={ errors.country?.message }
+                                helperText={ errors.country?.message }
                             >
-                                {
+                                {/* {
                                     countries.map( country => (
                                         <MenuItem 
                                         key={ country.code}
@@ -136,7 +150,7 @@ const AddressPage = () => {
                                         >{country.name}</MenuItem>
                                         
                                     ))
-                                }
+                                } */}
                             </TextField>
                         </FormControl>
                     </Grid>
