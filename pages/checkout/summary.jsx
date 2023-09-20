@@ -14,13 +14,22 @@ import { useRouter } from 'next/router';
 const SummaryPage = () => {
 
     const router = useRouter();
-    const { shippingAddress, numberOfItems } = useContext( CartContext );
+    const { shippingAddress, numberOfItems, createOrder } = useContext( CartContext );
 
     useEffect(() => {
         if ( !Cookies.get('firstName') ) {
             router.push('/checkout/address');
         }
     }, [ router ]);
+
+
+    const onCreateOrder = async() => {
+        
+
+        createOrder(); 
+
+    }
+
     // si el shippingAddress no existe retorname un fragmento <></>
     if ( !shippingAddress ) {
         return <></>;
@@ -72,7 +81,12 @@ const SummaryPage = () => {
                             <OrderSummary />
 
                             <Box sx={{ mt: 3 }}>
-                                <Button color="secondary" className='circular-btn' fullWidth>
+                                <Button 
+                                color="secondary" 
+                                className='circular-btn' 
+                                fullWidth
+                                onClick={onCreateOrder}
+                                >
                                     Confirmar Orden
                                 </Button>
                             </Box>

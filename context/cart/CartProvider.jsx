@@ -6,6 +6,7 @@ import { CartContext, cartReducer } from '.';
 
 import { types } from '@/types/types';
 import { ICartProduct } from '@/interfaces';
+import { vanliApi } from '@/api';
 
 
 
@@ -120,6 +121,21 @@ export const CartProvider = ({ children }) => {
         dispatch({ type: types.ShippingAddressUpdate, payload: address });
     }
 
+    const createOrder = async() => {
+
+        
+        try {
+            
+            const { data } = await vanliApi.post('/orders');
+            console.log({data})
+            
+        } catch (error) {
+            
+            console.log(error)
+        }
+
+    }
+
     return (
         <CartContext.Provider value={{
             ...state,
@@ -129,6 +145,7 @@ export const CartProvider = ({ children }) => {
             updateCartQuantity,
             removeCartProduct,
             updateAddress,
+            createOrder,
         }}>
             { children }
         </CartContext.Provider>
