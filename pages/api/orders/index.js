@@ -17,8 +17,8 @@ export default function handler(req, res) {
 
 const createOrder = async (req, res) => {
     
-    
+    const body = req.body;
         
-        return res.status(201).json( {message: 'hola mundo'} );
+        return res.status(201).json( body );
 
 }

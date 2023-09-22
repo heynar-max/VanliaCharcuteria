@@ -123,10 +123,26 @@ export const CartProvider = ({ children }) => {
 
     const createOrder = async() => {
 
-        
+        if ( !state.shippingAddress ) {
+            throw new Error('No hay dirección de entrega');
+        }
+
+        const body = {
+            orderItems: state.cart.map( p => ({
+                ...p,
+                size: p.size
+            })),
+            shippingAddress: state.shippingAddress,
+            numberOfItems: state.numberOfItems,
+            subTotal: state.subTotal,
+            tax: state.tax,
+            total: state.total,
+            isPaid: false
+        }
+
         try {
             
-            const { data } = await vanliApi.post('/orders');
+            const { data } = await vanliApi.post('/orders', body);
             console.log({data})
             
         } catch (error) {
