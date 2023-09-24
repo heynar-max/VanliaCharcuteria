@@ -1,5 +1,10 @@
 
 
+import { db } from "@/database";
+import { Order, Product } from "@/models";
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession } from "next-auth/next"
+
 
 
 export default function handler(req, res) {
@@ -17,8 +22,58 @@ export default function handler(req, res) {
 
 const createOrder = async (req, res) => {
     
-    const body = req.body;
-        
-        return res.status(201).json( body );
+
+    const { orderItems, total } = req.body;
+
+    // Vericar que tengamos un usuario
+    const session = await getServerSession( req, res, authOptions );
+    
+    if ( !session ) {
+        return res.status(401).json({message: 'Debe de estar autenticado para hacer esto'});
+    }
+
+    // Crear un arreglo con los productos que la persona quiere
+    const productsIds = orderItems.map( product => product._id );
+    await db.connect();
+
+    const dbProducts = await Product.find({ _id: { $in: productsIds } });
+
+        try {
+
+            const subTotal = orderItems.reduce( ( prev, current ) => {
+                const currentPrice = dbProducts.find( prod => prod.id === current._id )?.price;
+                if ( !currentPrice ) {
+                    throw new Error('Verifique el carrito de nuevo, producto no existe');
+                }
+    
+                return (currentPrice * current.quantity) + prev
+            }, 0 );
+    
+    
+            const taxRate =  Number(process.env.NEXT_PUBLIC_TAX_RATE || 0);
+            const backendTotal = subTotal * ( taxRate + 1 );
+            // !== diferente
+            if ( total !== backendTotal ) {
+                throw new Error('El total no cuadra con el monto');
+            }
+    
+            // Todo bien hasta este punto
+            const userId = session.user._id;
+            const newOrder = new Order({ ...req.body, isPaid: false, user: userId });
+            await newOrder.save();
+            await db.disconnect();
+            
+            return res.status(201).json( newOrder );
+    
+    
+            
+        } catch (error) {
+            await db.disconnect();
+            console.log(error);
+            res.status(400).json({
+                message: error.message || 'Revise logs del servidor'
+            })
+        }
+        // return res.status(201).json( req.body );
 
 }
