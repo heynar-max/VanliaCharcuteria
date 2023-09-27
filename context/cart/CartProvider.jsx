@@ -7,6 +7,7 @@ import { CartContext, cartReducer } from '.';
 import { types } from '@/types/types';
 import { ICartProduct } from '@/interfaces';
 import { vanliApi } from '@/api';
+import axios from 'axios';
 
 
 
@@ -121,7 +122,7 @@ export const CartProvider = ({ children }) => {
         dispatch({ type: types.ShippingAddressUpdate, payload: address });
     }
 
-    const createOrder = async() => {
+    const createOrder = async( ) => {
 
         if ( !state.shippingAddress ) {
             throw new Error('No hay dirección de entrega');
@@ -143,11 +144,26 @@ export const CartProvider = ({ children }) => {
         try {
             
             const { data } = await vanliApi.post('/orders', body);
-            console.log({data})
+            
+            // dispatch({ type: '[Cart] - Order complete' });
+
+            return {
+                hasError: false,
+                message: data._id
+            }
             
         } catch (error) {
+            if ( axios.isAxiosError(error) ) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message
+                }
+            }
+            return {
+                hasError: true,
+                message : 'Error no controlado, hable con el administrador'
+            }
             
-            console.log(error)
         }
 
     }
