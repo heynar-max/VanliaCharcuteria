@@ -54,6 +54,16 @@ export const cartReducer = (state , action) => {
             shippingAddress: action.payload
          };
 
+         case types.OrdenComplete:
+         return {
+            ...state,
+            cart: [],
+            numberOfItems: 0,
+            subTotal: 0,
+            tax: 0,
+            total: 0
+         }
+
       default:
          return state;
    }

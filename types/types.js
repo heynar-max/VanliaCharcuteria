@@ -43,5 +43,9 @@ export const types ={
         type: '[Cart] - Update Address',
     },
 
+    OrdenComplete: {
+        type: '[Cart] - Orden Complete',
+    },
+
 
 }

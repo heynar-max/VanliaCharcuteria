@@ -145,7 +145,7 @@ export const CartProvider = ({ children }) => {
             
             const { data } = await vanliApi.post('/orders', body);
             
-            // dispatch({ type: '[Cart] - Order complete' });
+            dispatch({ type: types.OrdenComplete });
 
             return {
                 hasError: false,
