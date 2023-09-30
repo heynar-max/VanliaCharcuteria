@@ -4,6 +4,8 @@ import { Typography, Grid, Chip, Link } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { ShopLayout } from '../../components/layouts';
+import { getSession } from 'next-auth/react';
+import { dbOrders } from '@/database';
 
 
 const columns  = [
@@ -30,32 +32,36 @@ const columns  = [
         sortable: false,
         renderCell: (params= GridValueGetterParams) => {
             return (
-                <NextLink href={`/orders/${ params.row.id }`} passHref legacyBehavior>
+                <NextLink href={`/orders/${ params.row.orderId }`} passHref legacyBehavior>
                         <Link underline='always' color='secondary'>
                             Ver orden
                         </Link>
                 </NextLink>
             )
         }
-    }
+    },
 ];
 
 
-const rows = [
-    { id: 1, paid: true, fullname: 'Heynar Soto Holguin' },
-    { id: 2, paid: false, fullname: 'Janeth Narvaez' },
-    { id: 3, paid: true, fullname: 'Liane Soto' },
-    { id: 4, paid: false, fullname: 'Evan Soto' },
-]
+
+const HistoryPage = ({orders}) => {
+
+    // const rows = ..  
+    // { id: indice + 1, paid: true, fullname: 'Heynar Soto', orderId: 1283781237123 }
+    const rows = orders.map( (order, idx) => ({ 
+        id: idx + 1,
+        paid: order.isPaid,
+        fullname: `${ order.shippingAddress.firstName } ${ order.shippingAddress.lastName }`,
+        orderId: order._id
+    }))
 
 
-const HistoryPage = () => {
     return (
         <ShopLayout title={'Historial de ordenes'} pageDescription={'Historial de ordenes del cliente'}>
             <Typography variant='h1' component='h1'>Historial de ordenes</Typography>
 
 
-            <Grid container>
+            <Grid container className='fadeIn'>
                 <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                     <DataGrid 
                         rows={ rows }
@@ -69,6 +75,29 @@ const HistoryPage = () => {
 
         </ShopLayout>
     )
+}
+
+export const getServerSideProps = async ({ req }) => {
+    
+    const session= await getSession({ req });
+
+    if ( !session ) {
+        return {
+            redirect: {
+                destination: '/auth/login?p=/orders/history',
+                permanent: false,
+            }
+        }
+    }
+
+    const orders = await dbOrders.getOrdersByUser( session.user._id );
+
+
+    return {
+        props: {
+            orders
+        }
+    }
 }
 
 export default HistoryPage

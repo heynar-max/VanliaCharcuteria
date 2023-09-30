@@ -14,7 +14,6 @@ import { dbOrders } from '@/database';
 
 const OrderPage = ({order}) => {
 
-console.log({order});
 
 const { shippingAddress } = order;
     return (
@@ -44,7 +43,7 @@ const { shippingAddress } = order;
         }
             
 
-            <Grid container>
+            <Grid container className='fadeIn'>
                 <Grid item xs={ 12 } sm={ 7 }>
                     <CartList products={  order.orderItems } />
                 </Grid>
