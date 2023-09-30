@@ -42,8 +42,4 @@ productSchema.index({ title: 'text', tags: 'text' });
 const Product = mongoose.models.Product || mongoose.model('Product',  productSchema);
 
 
-
-
-
-
 export default Product;

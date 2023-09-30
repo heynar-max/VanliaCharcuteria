@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IOrder } from '../interfaces';
+
 
 const orderSchema = new mongoose.Schema({
 

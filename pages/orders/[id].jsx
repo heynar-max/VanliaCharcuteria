@@ -5,9 +5,16 @@ import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material'
 
 import { ShopLayout } from '../../components/layouts/ShopLayout';
 import { CartList, OrderSummary } from '../../components/cart';
+import { getServerSession } from "next-auth/next"
+import { getSession } from 'next-auth/react';
+import { dbOrders } from '@/database';
+// import { dbOrders } from '@/database';
+// import { authOptions } from '../api/auth/[...nextauth]';
 
 
-const OrderPage = () => {
+const OrderPage = (order) => {
+
+console.log(order);
     return (
         <ShopLayout title='Resumen de la orden 123671523' pageDescription={'Resumen de la orden'}>
             <Typography variant='h1' component='h1'>Orden: ABC123</Typography>
@@ -87,5 +94,52 @@ const OrderPage = () => {
         </ShopLayout>
     )
 }
+
+export const getServerSideProps = async ( req ) => {
+    
+    const { query } = req;
+    const { id = ''} = query;
+    const session = await getSession(req);
+
+    if ( !session ) {
+        return {
+            redirect: {
+                destination: `/auth/login?p=/orders/${ id }`,
+                permanent: false,
+            }
+        }
+    }
+
+    const order = await dbOrders.getOrderById( id.toString() );
+
+    // si no hay orden sacar a la persona
+    if ( !order ) {
+        return {
+            redirect: {
+                destination: '/orders/history',
+                permanent: false,
+            }
+        }
+    }
+
+    // si order es diferente a la session user id sacar al usuario
+    if ( order.user !== session.user._id ) {
+        return {
+            redirect: {
+                destination: '/orders/history',
+                permanent: false,
+            }
+        }
+    }
+
+
+    return {
+        props: {
+            order
+            
+        }
+    }
+}
+
 
 export default OrderPage;
