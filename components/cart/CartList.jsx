@@ -10,7 +10,7 @@ import { currency } from '@/utils';
 
 
 
-export const CartList = ({ editable = false }) => {
+export const CartList = ({ editable = false, products }) => {
 
 
     const {cart, updateCartQuantity, removeCartProduct} = useContext(CartContext);
@@ -20,6 +20,7 @@ export const CartList = ({ editable = false }) => {
         updateCartQuantity( product );
     }
 
+    const productsToShow = products ? products : cart;
 
     return (
         <>
@@ -27,7 +28,7 @@ export const CartList = ({ editable = false }) => {
         cuando se agrega un producto del mismo slug pero de diferente size da error, 
         se pone size para que tome el size varias veces */}
             {
-                cart.map( product => (
+                productsToShow.map( product => (
                     <Grid container spacing={2} key={ product.slug + product.size } sx={{ mb:1 }}>
                         <Grid item xs={3}>
                             {/* TODO: llevar a la página del producto */}
