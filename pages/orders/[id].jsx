@@ -96,14 +96,13 @@ const { shippingAddress } = order;
                                             purchase_units: [
                                                 {
                                                     amount: {
-                                                        value: '12000',
+                                                        value: `${order.total}`,
                                                     },
                                                 },
                                             ],
                                         });
                                     }}
                                     onApprove={(data, actions) => {
-
                                         return actions.order.capture().then((details) => {
                                             // onOrderCompleted( details );
                                             console.log({ details  })
