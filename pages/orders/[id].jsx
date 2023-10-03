@@ -8,11 +8,38 @@ import { CartList, OrderSummary } from '../../components/cart';
 import { getSession } from 'next-auth/react';
 import { dbOrders } from '@/database';
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import { vanliApi } from '@/api';
+import { useRouter } from 'next/router';
 
 
 
 const OrderPage = ({order}) => {
 
+    const router = useRouter();
+    const onOrderCompleted = async( details ) => {
+        
+        if ( details.status !== 'COMPLETED' ) {
+            return alert('No hay pago en Paypal');
+        }
+
+        // setIsPaying(true);
+
+        try {
+            
+            const { data } = await vanliApi.post(`/orders/pay`, {
+                transactionId: details.id,
+                orderId: order._id
+            });
+
+            router.reload();
+
+        } catch (error) {
+            // setIsPaying(false);
+            console.log(error);
+            alert('Error');
+        }
+
+    };
 
 const { shippingAddress } = order;
     return (
@@ -104,10 +131,8 @@ const { shippingAddress } = order;
                                     }}
                                     onApprove={(data, actions) => {
                                         return actions.order.capture().then((details) => {
-                                            // onOrderCompleted( details );
-                                            console.log({ details  })
-                                            const name = details.payer.name.given_name;
-                                            alert(`Transaction completed by ${name}`);
+                                            onOrderCompleted( details );
+                                            
                                         });
                                     }}
                                     />
