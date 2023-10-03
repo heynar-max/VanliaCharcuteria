@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 
-import { Box, Card, CardContent, Divider, Grid, Typography, Chip } from '@mui/material';
+import { Box, Card, CardContent, Divider, Grid, Typography, Chip, CircularProgress } from '@mui/material';
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 
 import { ShopLayout } from '../../components/layouts/ShopLayout';
@@ -10,19 +10,23 @@ import { dbOrders } from '@/database';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import { vanliApi } from '@/api';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 
 
 const OrderPage = ({order}) => {
-
+    
     const router = useRouter();
+    const { shippingAddress } = order;
+    const [isPaying, setIsPaying] = useState(false);
+
     const onOrderCompleted = async( details ) => {
         
         if ( details.status !== 'COMPLETED' ) {
             return alert('No hay pago en Paypal');
         }
 
-        // setIsPaying(true);
+        setIsPaying(true);
 
         try {
             
@@ -34,14 +38,13 @@ const OrderPage = ({order}) => {
             router.reload();
 
         } catch (error) {
-            // setIsPaying(false);
+            setIsPaying(false);
             console.log(error);
             alert('Error');
         }
 
     };
 
-const { shippingAddress } = order;
     return (
         <ShopLayout title='Resumen de la orden 123671523' pageDescription={'Resumen de la orden'}>
             <Typography variant='h1' component='h1'>Orden: {order._id}</Typography>
@@ -105,6 +108,17 @@ const { shippingAddress } = order;
 
                             <Box sx={{ mt: 3 }} display="flex" flexDirection='column'>
                                 {/* TODO */}
+
+                                <Box 
+                                    display="flex"
+                                    justifyContent="center"
+                                    className='fadeIn'
+                                    sx={{ display: isPaying ? 'flex': 'none' }}>
+                                    <CircularProgress />
+                                </Box>
+
+                            <Box flexDirection='column' sx={{ display: isPaying ? 'none': 'flex', flex: 1 }} >
+
                                 {
                                 order.isPaid
                                 ? (
@@ -138,6 +152,7 @@ const { shippingAddress } = order;
                                     />
                                 )
                             }
+                            </Box>
 
                             </Box>
 

@@ -99,6 +99,7 @@ const payOrder = async(req, res) => {
     dbOrder.transactionId = transactionId;
     dbOrder.isPaid = true;
     await dbOrder.save();
+    // desde aqui se hace un funcion del correo al saber que ya hayuna nueva orden
     await db.disconnect();
 
     
