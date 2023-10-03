@@ -1,6 +1,8 @@
 
 import axios from 'axios';
-
+import { IPaypal } from '../../../interfaces';
+import { db } from '../../../database';
+import { Order } from '../../../models';
 
 
 
@@ -65,7 +67,40 @@ const payOrder = async(req, res) => {
         return res.status(400).json({ message: 'No se pudo confirmar el token de paypal' })
     }
 
+    const { transactionId = '', orderId = ''  } = req.body;
+
+
+    const { data } = await axios.get( `${ process.env.PAYPAL_ORDERS_URL }/${ transactionId }`, {
+        headers: {
+            'Authorization': `Bearer ${ paypalBearerToken }`
+        }
+    });
+
+    if ( data.status !== 'COMPLETED' ) {
+        return res.status(401).json({ message: 'Orden no reconocida' });
+    }
+
+
+    await db.connect();
+    const dbOrder = await Order.findById(orderId);
+
+    if ( !dbOrder ) {
+        await db.disconnect();
+        return res.status(400).json({ message: 'Orden no existe en nuestra base de datos' });
+    }
     
     
-    return res.status(200).json({ message: paypalBearerToken });
+    if ( dbOrder.total !== Number(data.purchase_units[0].amount.value) ) {
+        await db.disconnect();
+        return res.status(400).json({ message: 'Los montos de PayPal y nuestra orden no son iguales' });
+    }
+
+
+    dbOrder.transactionId = transactionId;
+    dbOrder.isPaid = true;
+    await dbOrder.save();
+    await db.disconnect();
+
+    
+    return res.status(200).json({ message: 'order pagada' });
 }
