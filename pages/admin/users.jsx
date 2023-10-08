@@ -5,17 +5,45 @@ import useSWR from 'swr';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Grid, Select, MenuItem } from '@mui/material';
 import { AdminLayout } from '@/components/layouts';
+import { vanliApi } from '@/api';
 
 
 const UsersPage = () => {
 
     const { data, error } = useSWR('/api/admin/users');
-    
+    const [ users, setUsers ] = useState([]);
+
+
+    useEffect(() => {
+        if (data) {
+            setUsers(data);
+        }
+    }, [data])
     
 
     if ( !data && !error ) return (<></>);
 
-    
+    const onRoleUpdated = async( userId, newRole ) => {
+
+        const previosUsers = users.map( user => ({ ...user }));
+        const updatedUsers = users.map( user => ({
+            ...user,
+            role: userId === user._id ? newRole : user.role
+        }));
+
+        setUsers(updatedUsers);
+
+        try {
+            
+            await vanliApi.put('/admin/users', {  userId, role: newRole });
+
+        } catch (error) {
+            setUsers( previosUsers );
+            console.log(error);
+            alert('No se pudo actualizar el role del usuario');
+        }
+
+    }
 
 
     const columns= [
@@ -25,11 +53,25 @@ const UsersPage = () => {
             field: 'role', 
             headerName: 'Rol', 
             width: 300,
-            
+            renderCell: ({row}) => {
+                return (
+                    <Select
+                        value={ row.role }
+                        label="Rol"
+                        onChange={ ({ target }) => onRoleUpdated( row.id, target.value ) }
+                        sx={{ width: '300px' }}
+                    >
+                        <MenuItem value='admin'> Admin </MenuItem>
+                        <MenuItem value='client'> Client </MenuItem>
+                        <MenuItem value='super-user'> Super User </MenuItem>
+                        <MenuItem value='SEO'> SEO </MenuItem>
+                    </Select>
+                )
+            }
         },
     ];
 
-    const rows = data.map( user => ({
+    const rows = users.map( user => ({
         id: user._id,
         email: user.email,
         name: user.name,
