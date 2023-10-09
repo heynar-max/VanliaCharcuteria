@@ -1,6 +1,8 @@
 
 
 
+
+
 import { db } from '@/database';
 import { Product } from '@/models';
 
@@ -36,7 +38,7 @@ export default function handler(req, res) {
 
         await db.disconnect();
 
-    
+        
 
 
         res.status(200).json( products );

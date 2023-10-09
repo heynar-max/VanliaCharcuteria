@@ -30,7 +30,15 @@ const columns = [
         field: 'title', 
         headerName: 'Title', 
         width: 250,
-    
+        renderCell: ({row}) => {
+            return (
+                <NextLink href={`/admin/products/${ row.slug }`}  passHref legacyBehavior>
+                    <Link underline='always' color="secondary" >
+                        { row.title}
+                    </Link>
+                </NextLink>
+            )
+        }
     },
     { field: 'gender', headerName: 'Género' },
     { field: 'type', headerName: 'Tipo' },
@@ -68,7 +76,6 @@ const ProductsPage = () => {
             icon={ <CategoryOutlined /> }
         >
             
-
             <Grid container className='fadeIn'>
                 <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                     <DataGrid 
