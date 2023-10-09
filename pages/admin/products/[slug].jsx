@@ -6,6 +6,8 @@ import { DriveFileRenameOutline, SaveOutlined, UploadOutlined } from '@mui/icons
 
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { dbProducts } from '@/database';
+import { useForm } from 'react-hook-form';
+import { vanliApi } from '@/api';
 
 
 const validTypes  = ['ahumado','quesos','embutidos']
@@ -16,7 +18,38 @@ const validSizes = ['125','250','500','1000']
 
 const ProductAdminPage = ({ product }) => {
 
+
+    const { register, handleSubmit, formState:{ errors } } = useForm({
+        defaultValues: product
+    })
+
     const onDeleteTag = ( tag ) => {
+
+    }
+    const onSubmit = async( form ) => {
+        
+        if ( form.images.length < 2 ) return alert('Mínimo 2 imagenes');
+        setIsSaving(true);
+
+        try {
+            const { data } = await vanliApi({
+                url: '/admin/products',
+                method: form._id ? 'PUT': 'POST',  // si tenemos un _id, entonces actualizar, si no crear
+                data: form
+            });
+
+            console.log({data});
+            if ( !form._id ) {
+                router.replace(`/admin/products/${ form.slug }`);
+            } else {
+                setIsSaving(false)
+            }
+
+
+        } catch (error) {
+            console.log(error);
+            setIsSaving(false);
+        }
 
     }
 
@@ -26,7 +59,7 @@ const ProductAdminPage = ({ product }) => {
             subTitle={`Editando: ${ product.title }`}
             icon={ <DriveFileRenameOutline /> }
         >
-            <form>
+            <form onSubmit={ handleSubmit( onSubmit )}>
                 <Box display='flex' justifyContent='end'  sx={{ mb: 1 }}>
                     <Button 
                         color="secondary"
@@ -48,12 +81,12 @@ const ProductAdminPage = ({ product }) => {
                             color='secondary'
                             fullWidth 
                             sx={{ mb: 1 }}
-                            // { ...register('name', {
-                            //     required: 'Este campo es requerido',
-                            //     minLength: { value: 2, message: 'Mínimo 2 caracteres' }
-                            // })}
-                            // error={ !!errors.name }
-                            // helperText={ errors.name?.message }
+                            { ...register('title', {
+                                required: 'Este campo es requerido',
+                                minLength: { value: 2, message: 'Mínimo 2 caracteres' }
+                            })}
+                            error={ !!errors.title }
+                            helperText={ errors.title?.message }
                         />
 
                         <TextField
@@ -63,6 +96,11 @@ const ProductAdminPage = ({ product }) => {
                             fullWidth 
                             multiline
                             sx={{ mb: 1 }}
+                            { ...register('description', {
+                                required: 'Este campo es requerido',
+                            })}
+                            error={ !!errors.description }
+                            helperText={ errors.description?.message }
                         />
 
                         <TextField
@@ -72,6 +110,12 @@ const ProductAdminPage = ({ product }) => {
                             variant="filled"
                             fullWidth 
                             sx={{ mb: 1 }}
+                            { ...register('inStock', {
+                                required: 'Este campo es requerido',
+                                min: { value: 0, message: 'Mínimo 2 caracteres' }
+                            })}
+                            error={ !!errors.inStock }
+                            helperText={ errors.inStock?.message }
                         />
                         
                         <TextField
@@ -81,6 +125,12 @@ const ProductAdminPage = ({ product }) => {
                             variant="filled"
                             fullWidth 
                             sx={{ mb: 1 }}
+                            { ...register('price', {
+                                required: 'Este campo es requerido',
+                                min: { value: 0, message: 'Mínimo 2 caracteres' }
+                            })}
+                            error={ !!errors.price }
+                            helperText={ errors.price?.message }
                         />
 
                         <Divider sx={{ my: 1 }} />
@@ -144,6 +194,12 @@ const ProductAdminPage = ({ product }) => {
                             variant="filled"
                             fullWidth
                             sx={{ mb: 1 }}
+                            { ...register('slug', {
+                                required: 'Este campo es requerido',
+                                validate: (val) => val.trim().includes(' ') ? 'No puede tener espacios en blanco':undefined
+                            })}
+                            error={ !!errors.slug }
+                            helperText={ errors.slug?.message }
                         />
 
                         <TextField

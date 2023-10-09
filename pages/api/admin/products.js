@@ -1,8 +1,6 @@
 
 
 
-
-
 import { db } from '@/database';
 import { Product } from '@/models';
 
@@ -38,7 +36,9 @@ export default function handler(req, res) {
 
         await db.disconnect();
 
-        
+        // TODO:
+        // actualizar imagenes
+
 
 
         res.status(200).json( products );

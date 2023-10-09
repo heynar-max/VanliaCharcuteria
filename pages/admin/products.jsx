@@ -76,6 +76,7 @@ const ProductsPage = () => {
             icon={ <CategoryOutlined /> }
         >
             
+
             <Grid container className='fadeIn'>
                 <Grid item xs={12} sx={{ height:650, width: '100%' }}>
                     <DataGrid 
