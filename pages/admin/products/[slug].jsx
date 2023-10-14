@@ -23,6 +23,16 @@ const ProductAdminPage = ({ product }) => {
         defaultValues: product
     })
 
+    const onChangeSize = ( size ) => {
+        const currentSizes = getValues('sizes');
+        if ( currentSizes.includes( size ) ) {
+            return setValue('sizes', currentSizes.filter( s => s !== size ), { shouldValidate: true } );
+        }
+
+        setValue('sizes', [ ...currentSizes, size ], { shouldValidate: true });
+
+    }
+
     const onDeleteTag = ( tag ) => {
     
     }
@@ -30,6 +40,28 @@ const ProductAdminPage = ({ product }) => {
 
         console.log({form})
         
+        // if ( form.images.length < 2 ) return alert('Mínimo 2 imagenes');
+        // setIsSaving(true);
+
+        // try {
+        //     const { data } = await vanliApi({
+        //         url: '/admin/products',
+        //         method: form._id ? 'PUT': 'POST',  // si tenemos un _id, entonces actualizar, si no crear
+        //         data: form
+        //     });
+
+        //     console.log({data});
+        //     if ( !form._id ) {
+        //         router.replace(`/admin/products/${ form.slug }`);
+        //     } else {
+        //         setIsSaving(false)
+        //     }
+
+
+        // } catch (error) {
+        //     console.log(error);
+        //     setIsSaving(false);
+        // }
 
     }
 
@@ -160,7 +192,13 @@ const ProductAdminPage = ({ product }) => {
                             <FormLabel>Tallas</FormLabel>
                             {
                                 validSizes.map(size => (
-                                    <FormControlLabel key={size} control={<Checkbox  color='secondary'/>} label={ size } />
+                                    <FormControlLabel 
+                                        key={size} 
+                                        control={<Checkbox checked={ getValues('sizes').includes(size)} color='secondary'/>} 
+                                        label={ size } 
+                                        onChange={ () => onChangeSize ( size )}
+                                    
+                                    />
                                 ))
                             }
                         </FormGroup>
