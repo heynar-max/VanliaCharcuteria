@@ -75,7 +75,15 @@ const ProductsPage = () => {
             subTitle={'Mantenimiento de productos'}
             icon={ <CategoryOutlined /> }
         >
-            
+            {/* <Box display='flex' justifyContent='end' sx={{ mb: 2 }}>
+                <Button
+                    startIcon={ <AddOutlined /> }
+                    color="secondary"
+                    href="/admin/products/new"
+                >
+                    Crear producto
+                </Button>
+            </Box> */}
 
             <Grid container className='fadeIn'>
                 <Grid item xs={12} sx={{ height:650, width: '100%' }}>

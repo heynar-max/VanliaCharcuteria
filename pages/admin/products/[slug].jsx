@@ -19,37 +19,17 @@ const validSizes = ['125','250','500','1000']
 const ProductAdminPage = ({ product }) => {
 
 
-    const { register, handleSubmit, formState:{ errors } } = useForm({
+    const { register, handleSubmit, formState:{ errors }, getValues, setValue } = useForm({
         defaultValues: product
     })
 
     const onDeleteTag = ( tag ) => {
-
+    
     }
     const onSubmit = async( form ) => {
+
+        console.log({form})
         
-        if ( form.images.length < 2 ) return alert('Mínimo 2 imagenes');
-        setIsSaving(true);
-
-        try {
-            const { data } = await vanliApi({
-                url: '/admin/products',
-                method: form._id ? 'PUT': 'POST',  // si tenemos un _id, entonces actualizar, si no crear
-                data: form
-            });
-
-            console.log({data});
-            if ( !form._id ) {
-                router.replace(`/admin/products/${ form.slug }`);
-            } else {
-                setIsSaving(false)
-            }
-
-
-        } catch (error) {
-            console.log(error);
-            setIsSaving(false);
-        }
 
     }
 
@@ -112,7 +92,7 @@ const ProductAdminPage = ({ product }) => {
                             sx={{ mb: 1 }}
                             { ...register('inStock', {
                                 required: 'Este campo es requerido',
-                                min: { value: 0, message: 'Mínimo 2 caracteres' }
+                                min: { value: 0, message: 'Mínimo de valor 0' }
                             })}
                             error={ !!errors.inStock }
                             helperText={ errors.inStock?.message }
@@ -127,7 +107,7 @@ const ProductAdminPage = ({ product }) => {
                             sx={{ mb: 1 }}
                             { ...register('price', {
                                 required: 'Este campo es requerido',
-                                min: { value: 0, message: 'Mínimo 2 caracteres' }
+                                min: { value: 0, message: 'Mínimo valor 0' }
                             })}
                             error={ !!errors.price }
                             helperText={ errors.price?.message }
@@ -139,8 +119,8 @@ const ProductAdminPage = ({ product }) => {
                             <FormLabel>Tipo</FormLabel>
                             <RadioGroup
                                 row
-                                // value={ status }
-                                // onChange={ onStatusChanged }
+                                value={ getValues ('type')}
+                                onChange={ ({ target }) => setValue('type', target.value, {shouldValidate: true}) }
                             >
                                 {
                                     validTypes.map( option => (
@@ -159,8 +139,9 @@ const ProductAdminPage = ({ product }) => {
                             <FormLabel>Género</FormLabel>
                             <RadioGroup
                                 row
-                                // value={ status }
-                                // onChange={ onStatusChanged }
+                                
+                                value={ getValues ('gender')}
+                                onChange={ ({ target }) => setValue('gender', target.value, {shouldValidate: true}) }
                             >
                                 {
                                     validGender.map( option => (
