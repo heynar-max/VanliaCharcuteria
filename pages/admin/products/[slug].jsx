@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 
 import { AdminLayout } from '@/components/layouts';
 
@@ -19,9 +19,25 @@ const validSizes = ['125','250','500','1000']
 const ProductAdminPage = ({ product }) => {
 
 
-    const { register, handleSubmit, formState:{ errors }, getValues, setValue } = useForm({
+    const { register, handleSubmit, formState:{ errors }, getValues, setValue, watch } = useForm({
         defaultValues: product
     })
+
+    useEffect(() => {
+        const subscription = watch(( value, { name, type } ) => {
+            
+            if ( name === 'title' ) {
+                const newSlug = value.title?.trim()
+                    .replaceAll(' ', '_')
+                    .replaceAll("'", '')
+                    .toLocaleLowerCase() || '';
+
+                setValue('slug', newSlug);
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [watch, setValue])
+
 
     const onChangeSize = ( size ) => {
         const currentSizes = getValues('sizes');
@@ -40,28 +56,7 @@ const ProductAdminPage = ({ product }) => {
 
         console.log({form})
         
-        // if ( form.images.length < 2 ) return alert('Mínimo 2 imagenes');
-        // setIsSaving(true);
 
-        // try {
-        //     const { data } = await vanliApi({
-        //         url: '/admin/products',
-        //         method: form._id ? 'PUT': 'POST',  // si tenemos un _id, entonces actualizar, si no crear
-        //         data: form
-        //     });
-
-        //     console.log({data});
-        //     if ( !form._id ) {
-        //         router.replace(`/admin/products/${ form.slug }`);
-        //     } else {
-        //         setIsSaving(false)
-        //     }
-
-
-        // } catch (error) {
-        //     console.log(error);
-        //     setIsSaving(false);
-        // }
 
     }
 
