@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AdminLayout } from '@/components/layouts';
 
@@ -18,6 +18,7 @@ const validSizes = ['125','250','500','1000']
 
 const ProductAdminPage = ({ product }) => {
 
+    const [ newTagValue, setNewTagValue ] = useState('');
 
     const { register, handleSubmit, formState:{ errors }, getValues, setValue, watch } = useForm({
         defaultValues: product
@@ -49,8 +50,21 @@ const ProductAdminPage = ({ product }) => {
 
     }
 
+    const onNewTag = () => {
+        const newTag = newTagValue.trim().toLocaleLowerCase();
+        setNewTagValue('');
+        const currentTags = getValues('tags');
+
+        if ( currentTags.includes(newTag) ) {
+            return;
+        }
+
+        currentTags.push(newTag);
+    }
+
     const onDeleteTag = ( tag ) => {
-    
+        const updatedTags = getValues('tags').filter( t => t !== tag );
+        setValue('tags', updatedTags, { shouldValidate: true });
     }
     const onSubmit = async( form ) => {
 
@@ -223,6 +237,10 @@ const ProductAdminPage = ({ product }) => {
                             fullWidth 
                             sx={{ mb: 1 }}
                             helperText="Presiona [spacebar] para agregar"
+                            value={ newTagValue }
+                            onChange={ ({ target }) => setNewTagValue(target.value) }
+                            // si oprime space llame la funcion onNewTag, si no undefine
+                            onKeyUp={ ({ code })=> code === 'Space' ? onNewTag() : undefined }
                         />
                         
                         <Box sx={{
@@ -234,7 +252,7 @@ const ProductAdminPage = ({ product }) => {
                         }}
                         component="ul">
                             {
-                                product.tags.map((tag) => {
+                                getValues('tags').map((tag) => {
 
                                 return (
                                     <Chip
