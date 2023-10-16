@@ -19,7 +19,7 @@ const validSizes = ['125','250','500','1000']
 const ProductAdminPage = ({ product }) => {
 
     const [ newTagValue, setNewTagValue ] = useState('');
-
+    const [isSaving, setIsSaving] = useState(false);
     const { register, handleSubmit, formState:{ errors }, getValues, setValue, watch } = useForm({
         defaultValues: product
     })
@@ -66,9 +66,31 @@ const ProductAdminPage = ({ product }) => {
         const updatedTags = getValues('tags').filter( t => t !== tag );
         setValue('tags', updatedTags, { shouldValidate: true });
     }
+
     const onSubmit = async( form ) => {
 
-        console.log({form})
+        if ( form.images.length < 2 ) return alert('Mínimo 2 imagenes');
+        setIsSaving(true);
+
+        try {
+            const { data } = await vanliApi({
+                url: '/admin/products',
+                method:  'PUT',  // si tenemos un _id, entonces actualizar, si no crear
+                data: form
+            });
+
+            console.log({data});
+            if ( !form._id ) {
+                
+            } else {
+                setIsSaving(false)
+            }
+
+
+        } catch (error) {
+            console.log(error);
+            setIsSaving(false);
+        }
         
 
 
@@ -87,6 +109,7 @@ const ProductAdminPage = ({ product }) => {
                         startIcon={ <SaveOutlined /> }
                         sx={{ width: '150px' }}
                         type="submit"
+                        disabled={isSaving}
                         >
                         Guardar
                     </Button>
