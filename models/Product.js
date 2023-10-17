@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 
 const productSchema = new mongoose.Schema({
-    description: { type: String, required: true },
+    description: { type: String, required: true, default: '' },
     images: [{ type: String }],
     inStock: { type: Number, required: true, default: 0 },
     price: { type: Number, required: true, default: 0 },
@@ -16,20 +16,22 @@ const productSchema = new mongoose.Schema({
     }],
     slug: { type: String, required: true, unique: true },
     tags: [{ type: String }],
-    title: { type: String, required: true },
+    title: { type: String, required: true, default: '' },
     type: {
         type: String,
         enum: {
             values: ['ahumado','quesos','embutidos'],
             message: '{VALUE} no es un tipo válido'
-        }
+        },
+        default: 'ahumado'
     },
     gender: {
         type: String,
         enum: {
             values: ['salchichas','chorizos','ahumados','quesos'],
             message: '{VALUE} no es una categoria válida'
-        }
+        },
+        default: 'salchichas'
     }
 },{
     timestamps: true

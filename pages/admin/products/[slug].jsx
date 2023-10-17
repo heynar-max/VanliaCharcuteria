@@ -8,6 +8,8 @@ import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, 
 import { dbProducts } from '@/database';
 import { useForm } from 'react-hook-form';
 import { vanliApi } from '@/api';
+import { Product } from '@/models';
+import { useRouter } from 'next/router';
 
 
 const validTypes  = ['ahumado','quesos','embutidos']
@@ -18,6 +20,7 @@ const validSizes = ['125','250','500','1000']
 
 const ProductAdminPage = ({ product }) => {
 
+    const router = useRouter();
     const [ newTagValue, setNewTagValue ] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const { register, handleSubmit, formState:{ errors }, getValues, setValue, watch } = useForm({
@@ -75,13 +78,13 @@ const ProductAdminPage = ({ product }) => {
         try {
             const { data } = await vanliApi({
                 url: '/admin/products',
-                method:  'PUT',  // si tenemos un _id, entonces actualizar, si no crear
+                method: form._id ? 'PUT': 'POST',  // si tenemos un _id, entonces actualizar, si no crear
                 data: form
             });
 
             console.log({data});
             if ( !form._id ) {
-                
+                router.replace(`/admin/products/${ form.slug }`);
             } else {
                 setIsSaving(false)
             }
@@ -349,7 +352,19 @@ export const getServerSideProps = async ({ query }) => {
     
     const { slug = ''} = query;
     
-    const product = await dbProducts.getProductBySlug(slug.toString());
+    let product;
+
+    if ( slug === 'new' ) {
+        // crear un producto
+        const tempProduct = JSON.parse( JSON.stringify( new Product() ) );
+        delete tempProduct._id;
+        tempProduct.images = ['img1.jpg','img2.jpg'];
+        product = tempProduct;
+
+    } else {
+        product = await dbProducts.getProductBySlug(slug.toString());
+    }
+    
 
     if ( !product ) {
         return {

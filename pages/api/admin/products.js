@@ -18,7 +18,7 @@ export default function handler(req, res) {
                 return updateProduct( req, res );
                 // POST para crear
             case 'POST':
-                
+                return createProduct( req, res )
                 
             default:
                 return res.status(400).json({ message: 'Bad request' });
@@ -87,4 +87,37 @@ export default function handler(req, res) {
         }
 
     }
+
+    const createProduct = async(req, res) => {
+    
+    const { images = [] } = req.body ;
+
+    if ( images.length < 2 ) {
+        return res.status(400).json({ message: 'El producto necesita al menos 2 imágenes' });
+    }
+    
+    // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+    
+    try {
+        await db.connect();
+        const productInDB = await Product.findOne({ slug: req.body.slug });
+        if ( productInDB ) {
+            await db.disconnect();
+            return res.status(400).json({ message: 'Ya existe un producto con ese slug' });
+        }
+        
+        const product = new Product( req.body );
+        await product.save();
+        await db.disconnect();
+
+        res.status(201).json( product );
+
+
+    } catch (error) {
+        console.log(error);
+        await db.disconnect();
+        return res.status(400).json({ message: 'Revisar logs del servidor' });
+    }
+
+}
 
