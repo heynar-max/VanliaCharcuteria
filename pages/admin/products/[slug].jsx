@@ -80,9 +80,13 @@ const ProductAdminPage = ({ product }) => {
             
             for( const file of target.files ) {
                 const formData = new FormData();
-                console.log( file );
                 
+                formData.append('file', file);
+                const { data } = await vanliApi.post('/admin/upload', formData);
+                // setValue('images', [...getValues('images'), data.message], { shouldValidate: true });
+                console.log(data)
             }
+
 
 
         } catch (error) {
