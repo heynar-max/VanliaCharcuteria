@@ -1,6 +1,9 @@
 import { IncomingForm, File } from 'formidable';
 import fs from 'fs';
 
+import { v2 as cloudinary } from 'cloudinary';
+cloudinary.config( process.env.CLOUDINARY_URL || '' );
+
 export const config = {
     api: {
         bodyParser: false,
@@ -23,12 +26,9 @@ export default function handler(req, res) {
 
 const saveFile = async( file ) => {
 
-    const data = fs.readFileSync( file.filepath );
-    fs.writeFileSync(`./public/${ file.originalFilename }`, data);
-    fs.unlinkSync( file.filepath ); // elimina
-    return;
+    const { secure_url } = await cloudinary.uploader.upload( file.filepath );
+    return secure_url;
     
-
 }
 
 
@@ -38,13 +38,13 @@ const parseFiles = async(req) => {
 
         const form = new IncomingForm() ;
         form.parse( req, async( err, fields, files ) => {
-            console.log({file: files.file});
+            
 
             if ( err ) {
                 return reject(err);
             }
 
-            const filePath = await saveFile( files.file[0]  )
+            const filePath = await saveFile( files.file[0] )
             resolve(filePath);
         })
 
@@ -55,9 +55,9 @@ const parseFiles = async(req) => {
 
 const uploadFile = async(req, res) => {
     
-    await parseFiles(req);
-    // const imageUrl = await parseFiles(req);
     
-    return res.status(200).json({ message: 'imageUrl' });
+    const imageUrl = await parseFiles(req);
+    
+    return res.status(200).json({ message: imageUrl });
 
 }
