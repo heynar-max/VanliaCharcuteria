@@ -40,10 +40,17 @@ export default function handler(req, res) {
         await db.disconnect();
 
         // TODO:
+        const updatedProducts = products.map( product => {
+            product.images = product.images.map( image => {
+                return image.includes('http') ? image : `${ process.env.HOST_NAME}products/${ image }`
+            });
+    
+            return product;
+        });
         
 
 
-        res.status(200).json( products );
+        res.status(200).json( updatedProducts );
 
     }
 
@@ -61,6 +68,7 @@ export default function handler(req, res) {
         }
 
         // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+        
 
 
         try {
