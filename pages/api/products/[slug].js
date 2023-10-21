@@ -33,6 +33,12 @@ async function getProductBySlug(req, res) {
         })
     }
 
+        product.images = product.images.map( image => {
+            return image.includes('http') ? image : `${ process.env.HOST_NAME}products/${ image }`
+        });
+
+        return product;
+
     return res.json( product );
 
 
