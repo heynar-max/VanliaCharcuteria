@@ -1,6 +1,8 @@
 
 import { isValidObjectId } from 'mongoose';
 
+import { v2 as cloudinary } from 'cloudinary';
+cloudinary.config( process.env.CLOUDINARY_URL || '' );
 
 import { db } from '@/database';
 import { Product } from '@/models';
@@ -72,6 +74,14 @@ export default function handler(req, res) {
 
             // TODO: eliminar fotos en Cloudinary
             
+            product.images.forEach( async(image) => {
+                if ( !images.includes(image) ){
+                    // Borrar de cloudinary
+                    const [ fileId, extension ] = image.substring( image.lastIndexOf('/') + 1 ).split('.')
+                    console.log({ image, fileId, extension });
+                    await cloudinary.uploader.destroy(fileId);
+                }
+            });
             
             product.set(req.body);
             await product.save();
@@ -83,7 +93,7 @@ export default function handler(req, res) {
         } catch (error) {
             console.log(error);
             await db.disconnect();
-            return res.status(400).json({ message: 'Revisar la consola del servidor' });
+            return res.status(400).json({ message: 'Revisar la consola del servidor update'  });
         }
 
     }

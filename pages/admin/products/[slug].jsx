@@ -83,8 +83,8 @@ const ProductAdminPage = ({ product }) => {
                 
                 formData.append('file', file);
                 const { data } = await vanliApi.post('/admin/upload', formData);
-                // setValue('images', [...getValues('images'), data.message], { shouldValidate: true });
-                console.log(data)
+                setValue('images', [...getValues('images'), data.message], { shouldValidate: true });
+                
             }
 
 
@@ -93,6 +93,15 @@ const ProductAdminPage = ({ product }) => {
             console.log({ error });
         }
     }
+
+    const onDeleteImage = ( image ) =>{
+        setValue(
+            'images', 
+            getValues('images').filter( img => img !== image ),
+            { shouldValidate: true }
+        );
+    }
+
 
     const onSubmit = async( form ) => {
 
@@ -348,17 +357,21 @@ const ProductAdminPage = ({ product }) => {
 
                             <Grid container spacing={2}>
                                 {
-                                    product.images.map( img => (
+                                    getValues('images').map( img => (
                                         <Grid item xs={4} sm={3} key={img}>
                                             <Card>
                                                 <CardMedia 
                                                     component='img'
                                                     className='fadeIn'
-                                                    image={ `/products/${ img }` }
+                                                    image={ img  }
                                                     alt={ img }
                                                 />
                                                 <CardActions>
-                                                    <Button fullWidth color="error">
+                                                    <Button 
+                                                    fullWidth 
+                                                    color="error"
+                                                    onClick={()=> onDeleteImage(img)}
+                                                    >
                                                         Borrar
                                                     </Button>
                                                 </CardActions>
