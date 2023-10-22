@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { Box, Button, Chip, Divider, Grid, Link, TextField, Typography } from '@mui/material';
-import { AuthLayout } from '../../components/layouts'
+
 import { useForm } from 'react-hook-form';
 import { validations } from '@/utils';
 
@@ -8,6 +8,7 @@ import { ErrorOutline } from '@mui/icons-material';
 import {  useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { getSession, signIn, getProviders } from 'next-auth/react';
+import { AuthLayout } from '@/components/layouts';
 
 
 const LoginPage = () => {
