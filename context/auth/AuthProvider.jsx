@@ -2,7 +2,7 @@ import { FC, useReducer, useEffect } from 'react';
 import { AuthContext, authReducer } from './';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { vanliApi } from '@/api';
+import { vanliApi } from '@/axiosApi';
 import { types } from '@/types/types';
 import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';

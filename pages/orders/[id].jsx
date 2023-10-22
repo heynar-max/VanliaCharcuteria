@@ -8,7 +8,7 @@ import { CartList, OrderSummary } from '../../components/cart';
 import { getSession } from 'next-auth/react';
 import { dbOrders } from '@/database';
 import { PayPalButtons } from '@paypal/react-paypal-js';
-import { vanliApi } from '@/api';
+import { vanliApi } from '@/axiosApi';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 

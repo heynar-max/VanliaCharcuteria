@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Grid, Select, MenuItem } from '@mui/material';
 import { AdminLayout } from '@/components/layouts';
-import { vanliApi } from '@/api';
+import { vanliApi } from '@/axiosApi';
 
 
 const UsersPage = () => {

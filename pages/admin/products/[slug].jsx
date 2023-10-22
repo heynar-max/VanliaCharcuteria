@@ -7,7 +7,7 @@ import { DriveFileRenameOutline, SaveOutlined, UploadOutlined } from '@mui/icons
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { dbProducts } from '@/database';
 import { useForm } from 'react-hook-form';
-import { vanliApi } from '@/api';
+import { vanliApi } from '@/axiosApi';
 import { Product } from '@/models';
 import { useRouter } from 'next/router';
 

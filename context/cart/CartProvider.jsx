@@ -6,7 +6,7 @@ import { CartContext, cartReducer } from '.';
 
 import { types } from '@/types/types';
 import { ICartProduct } from '@/interfaces';
-import { vanliApi } from '@/api';
+import { vanliApi } from '@/axiosApi';
 import axios from 'axios';
 
 
